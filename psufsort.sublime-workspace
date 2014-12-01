@@ -1,0 +1,1102 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"for",
+				"forv	Vector For Loop"
+			],
+			[
+				"siz",
+				"size_t"
+			],
+			[
+				"inc",
+				"include"
+			],
+			[
+				"b",
+				"bucket_A"
+			],
+			[
+				"buc",
+				"bucket_B"
+			],
+			[
+				"PB",
+				"PBBS_skew"
+			],
+			[
+				"PBB",
+				"PBBS_range"
+			],
+			[
+				"pb",
+				"PBBS_KS"
+			],
+			[
+				"pu",
+				"push_back"
+			],
+			[
+				"return",
+				"returned"
+			],
+			[
+				"get",
+				"get_interval"
+			],
+			[
+				"lo",
+				"lower_i"
+			],
+			[
+				"upp",
+				"upper_i"
+			],
+			[
+				"up",
+				"upper_i"
+			],
+			[
+				"lower",
+				"lower_i"
+			],
+			[
+				"ds",
+				"ds_strings"
+			],
+			[
+				"mut",
+				"mutations"
+			],
+			[
+				"opt",
+				"optmulti"
+			],
+			[
+				"ra",
+				"random"
+			],
+			[
+				"le",
+				"length"
+			],
+			[
+				"esa",
+				"esa_t"
+			],
+			[
+				"schwa",
+				"schwarzen"
+			],
+			[
+				"gene",
+				"genericBundle"
+			],
+			[
+				"gen",
+				"genericBundle"
+			],
+			[
+				"vimf",
+				"vimfx"
+			],
+			[
+				"def",
+				"defaultBasicBundle"
+			],
+			[
+				"de",
+				"defaultBundle"
+			],
+			[
+				"Tas",
+				"Tastenbefehle"
+			],
+			[
+				"zei",
+				"zeigeEingabe"
+			],
+			[
+				"qr_row",
+				"qr_row0"
+			],
+			[
+				"qu",
+				"query_length"
+			],
+			[
+				"elem",
+				"elem_t"
+			],
+			[
+				"Con",
+				"ConfigDatabase"
+			],
+			[
+				"COn",
+				"ConfigDbSimulator"
+			],
+			[
+				"cl",
+				"client"
+			],
+			[
+				"M",
+				"MAKE"
+			],
+			[
+				"build-C",
+				"build-ConfigDbSimulator"
+			],
+			[
+				"MO",
+				"MODDIR"
+			],
+			[
+				"MOD",
+				"MODULESDIR"
+			],
+			[
+				"buil",
+				"build_log"
+			],
+			[
+				"type",
+				"typeof"
+			],
+			[
+				"math",
+				"matches"
+			],
+			[
+				"pri",
+				"println"
+			],
+			[
+				"line",
+				"lineLength"
+			],
+			[
+				"not",
+				"notG"
+			],
+			[
+				"no",
+				"notT"
+			],
+			[
+				"m",
+				"match	match … { … }"
+			],
+			[
+				"n",
+				"name"
+			],
+			[
+				"pro",
+				"progress"
+			],
+			[
+				"progr",
+				"progressBar"
+			],
+			[
+				"save",
+				"saveTime"
+			],
+			[
+				"dee",
+				"deepLink"
+			],
+			[
+				"sta",
+				"startAtTime"
+			],
+			[
+				"timel",
+				"timeline"
+			],
+			[
+				"cu",
+				"customEvent"
+			],
+			[
+				"timelin",
+				"Timeline"
+			],
+			[
+				"curl",
+				"curl_global_init"
+			],
+			[
+				"ar",
+				"argv"
+			],
+			[
+				"g",
+				"getItem"
+			],
+			[
+				"set",
+				"setCurrentTime"
+			],
+			[
+				"odo",
+				"odo_mi"
+			],
+			[
+				"trip",
+				"trip_mi"
+			],
+			[
+				"tri",
+				"trip_km"
+			],
+			[
+				"VA",
+				"VARIABLE"
+			],
+			[
+				"D",
+				"MAX_DATA_LENGTH"
+			],
+			[
+				"tim",
+				"timeline"
+			],
+			[
+				"pr",
+				"prototype"
+			],
+			[
+				"Sa",
+				"SaveTime"
+			],
+			[
+				"typ",
+				"typeof"
+			],
+			[
+				"che",
+				"checkbox"
+			],
+			[
+				"th",
+				"that"
+			],
+			[
+				"pla",
+				"playing"
+			],
+			[
+				"start",
+				"startTime"
+			],
+			[
+				"play",
+				"player"
+			],
+			[
+				"col",
+				"colopts"
+			],
+			[
+				"li",
+				"lineTo"
+			],
+			[
+				"fo",
+				"foreground"
+			],
+			[
+				"r",
+				"radius"
+			],
+			[
+				"high",
+				"highlightWidthOffset"
+			],
+			[
+				"heig",
+				"height-drawingDiameter"
+			],
+			[
+				"wid",
+				"width-drawingDiameter"
+			],
+			[
+				"ge",
+				"getContext"
+			],
+			[
+				"back",
+				"background"
+			],
+			[
+				"stroke",
+				"strokeStyle"
+			],
+			[
+				"dra",
+				"drawCircle"
+			],
+			[
+				"hi",
+				"highlightColors"
+			],
+			[
+				"str",
+				"strokeStyle"
+			],
+			[
+				"ani",
+				"animation"
+			],
+			[
+				"hgih",
+				"highlightCircle2"
+			],
+			[
+				"dr",
+				"drawSeparators"
+			],
+			[
+				"colo",
+				"color"
+			],
+			[
+				"h",
+				"height-120"
+			],
+			[
+				"d",
+				"drawingDiameter"
+			],
+			[
+				"fill",
+				"fillRect"
+			],
+			[
+				"an",
+				"animation"
+			],
+			[
+				"on",
+				"onunload"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"label",
+				"labelAngles"
+			],
+			[
+				"bar",
+				"barAngles"
+			],
+			[
+				"size",
+				"sizeHalf"
+			],
+			[
+				"prev",
+				"previousValue"
+			],
+			[
+				"this",
+				"thickness"
+			],
+			[
+				"segm",
+				"segmentPoints"
+			],
+			[
+				"c",
+				"context"
+			],
+			[
+				"thi",
+				"thickness"
+			],
+			[
+				"proto",
+				"protoype"
+			],
+			[
+				"DE",
+				"DEFAULT_SIGMA"
+			],
+			[
+				"DEF",
+				"DEFAULT_L"
+			],
+			[
+				"as",
+				"as_str"
+			],
+			[
+				"print",
+				"println"
+			],
+			[
+				"con",
+				"contents"
+			],
+			[
+				"match",
+				"matches"
+			],
+			[
+				"res",
+				"httpResponseCode"
+			],
+			[
+				"htt",
+				"httpResponseCode"
+			],
+			[
+				"testpla",
+				"testplayer"
+			],
+			[
+				"z",
+				"zeros"
+			],
+			[
+				"if",
+				"ifeif	if … elseif … end"
+			],
+			[
+				"st",
+				"start"
+			],
+			[
+				"rand",
+				"randArray"
+			],
+			[
+				"ll",
+				"ll2-i"
+			],
+			[
+				"error",
+				"errorA"
+			],
+			[
+				"new",
+				"new_int"
+			],
+			[
+				"sp",
+				"sprintf"
+			],
+			[
+				"new_",
+				"new_int"
+			],
+			[
+				"odo_m",
+				"odo_mi"
+			],
+			[
+				"speed",
+				"speed_kmph"
+			],
+			[
+				"trip_",
+				"trip_km"
+			],
+			[
+				"tagesk",
+				"Tageskilometer"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "src/psufsort.cxx",
+			"settings":
+			{
+				"buffer_size": 1446,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 369.0,
+		"selected_items":
+		[
+			[
+				"packa",
+				"Package Control: Disable Package"
+			],
+			[
+				"sideb",
+				"View: Toggle Side Bar"
+			],
+			[
+				"open",
+				"View: Toggle Open Files in Side Bar"
+			],
+			[
+				"ss co",
+				"Set Syntax: CoffeeScript"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"bro",
+				"Preferences: Browse Packages"
+			],
+			[
+				"pack",
+				"Package Control: List Packages"
+			],
+			[
+				"ss c",
+				"Set Syntax: C"
+			],
+			[
+				"ss jso",
+				"Set Syntax: JSON"
+			],
+			[
+				"she",
+				"Set Syntax: Shell Script (Bash)"
+			],
+			[
+				"ss m",
+				"Set Syntax: Makefile"
+			],
+			[
+				"ss ja",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"con",
+				"Indentation: Convert to Tabs"
+			],
+			[
+				"matl",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"Ma",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"set javaS",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"javas",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"ma",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"conv",
+				"Indentation: Convert to Tabs"
+			],
+			[
+				"conver",
+				"Indentation: Convert to Tabs"
+			],
+			[
+				"set",
+				"Set Syntax: Rust"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"set syn c",
+				"Set Syntax: C"
+			],
+			[
+				"mat",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"m",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"comm",
+				"Toggle Comment"
+			],
+			[
+				"ja",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"ss java",
+				"Set Syntax: JavaScript"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 139.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/kloetzl/Projects/pSACA/psufsort_wrapper.cxx",
+		"/home/kloetzl/Projects/pSACA/divsufsort_wrapper.cxx",
+		"/home/kloetzl/Projects/pSACA/psufsort_src/psufsort.cxx",
+		"/home/kloetzl/Projects/pSACA/10.fa",
+		"/home/kloetzl/Projects/pSACA/10",
+		"/home/kloetzl/Projects/pSACA/psufsort/psufsort.cxx",
+		"/home/kloetzl/Projects/pSACA/libdivsufsort-2.0.1/lib/utils.c",
+		"/home/kloetzl/Projects/pSACA/PBBS/parallelKS/pks.C",
+		"/home/kloetzl/Projects/pSACA/PBBS_range_wrapper.cxx",
+		"/home/kloetzl/Projects/pSACA/PBBS_KS_wrapper.cxx",
+		"/home/kloetzl/Projects/pSACA/PBBS/parallelKS/SATime.C",
+		"/home/kloetzl/Projects/pSACA/PBBS/parallelRange/suffix.C",
+		"/home/kloetzl/Projects/pSACA/common/psaca.cxx",
+		"/home/kloetzl/Projects/pSACA/common/Makefile",
+		"/home/kloetzl/Projects/pSACA/common/io.cxx",
+		"/home/kloetzl/Projects/pSACA/suffixArray/parallelRange/suffix.C",
+		"/home/frank/SparkleShare/Masterarbeit/sources/Papers/Submission/hauboldKloetzlPfaffelhuber.tex",
+		"/home/frank/Dropbox/Master-Arbeit/front/acknowledgments.tex",
+		"/home/frank/Dropbox/Master-Arbeit/front/acknowledgements.tex",
+		"/home/frank/Downloads/spaced/src/distances.cpp",
+		"/home/frank/Projekte/andi/src/process.cpp",
+		"/home/frank/Dropbox/Master-Arbeit/front/abstract.tex",
+		"/home/frank/Dropbox/Bachelor-Arbeit/front/titlepageold.tex",
+		"/home/frank/Dropbox/Master-Arbeit/front/titlepage.tex",
+		"/home/frank/Dropbox/Bachelor-Arbeit/front/titlepage.tex",
+		"/home/frank/Dropbox/Master-Arbeit/front/declaration.tex",
+		"/home/frank/Dropbox/Bachelor-Arbeit/front/declaration.tex",
+		"/home/frank/Projekte/simR/src/simR.rs",
+		"/home/frank/Projekte/simR/src/rusta.rs",
+		"/home/frank/Projekte/rusta/src/rusta.rs",
+		"/home/frank/Projekte/Quick-Reply/quick-reply.user.js",
+		"/home/frank/.mozilla/firefox/pkp3vguc.default/gm_scripts/Quick-Reply_by_Kambfhase/quick-reply.user.js",
+		"/home/frank/.mozilla/firefox/pkp3vguc.default/scriptish_scripts/quick-replybykambfhase@/quick-replybykambfhase@.user.js",
+		"/home/frank/Projekte/andi/src/sequence.cpp",
+		"/home/frank/Uni/ZeLiM/zelimws1314/trunk/scripts/build_v2.sh",
+		"/home/frank/Uni/ZeLiM/zelimws1314/trunk/makefile",
+		"/home/frank/Uni/ZeLiM/zelimws1314/trunk/modules/Network/Makefile",
+		"/home/frank/Uni/ZeLiM/zelimws1314/trunk/modules/Filter/Makefile",
+		"/home/frank/Projekte/VimFx/extension/locale/de/vimfx.properties",
+		"/home/frank/Projekte/VimFx/extension/locale/de/options.dtd",
+		"/home/frank/.mozilla/firefox/pkp3vguc.default/scriptish_scripts/apptab4modsde/apptab4modsde.user.js",
+		"/home/frank/Projekte/VimFx/extension/packages/l10n.coffee",
+		"/home/frank/Projekte/VimFx/extension/defaults/preferences/defaults.js",
+		"/home/frank/Projekte/VimFx/extension/locale/vimfx.properties",
+		"/home/frank/Projekte/VimFx/extension/locale/en-US/vimfx.properties",
+		"/home/frank/Projekte/VimFx/extension/packages/help.coffee",
+		"/home/frank/Projekte/VimFx/extension/packages/prefs.coffee",
+		"/home/frank/Projekte/VimFx/extension/packages/prefs.js",
+		"/home/frank/Projekte/VimFx/extension/packages/l10n.js",
+		"/home/frank/Projekte/podlove-web-player/gulpfile.js",
+		"/home/frank/Projekte/andi/src/andi.cpp",
+		"/home/frank/Projekte/adventures_in_opencl/part1/cll.cpp",
+		"/home/frank/Projekte/adventures_in_opencl/part1/part1.cpp",
+		"/home/frank/Projekte/adventures_in_opencl/part1/main.cpp",
+		"/home/frank/Uni/ZeLiM/zelimws1314/trunk/scripts/startscript_v2.sh",
+		"/home/frank/Uni/ZeLiM/zelimws1314/trunk/scripts/startscript_v3.sh",
+		"/home/frank/Pfadis/Server/dpsg-luebeck.de/www/intern/index.html",
+		"/home/frank/Pfadis/Server/dpsg-luebeck.de/www/index.html",
+		"/home/frank/Uni/ZeLiM/zelimws1314/trunk/modules/Network/thrift/ZelimMessages.thrift",
+		"/home/frank/Uni/ZeLiM/zelimws1314/trunk/modules/EntryPoint/src/EntryPoint.java",
+		"/home/frank/Uni/ZeLiM/zelimws1314/trunk/modules/Network/Network-java/src/zelim/network/ZelimNetworkFactory.java",
+		"/home/frank/Uni/ZeLiM/zelimws1314/trunk/modules/BMSControl/src/BmsControlMain.java",
+		"/home/frank/Pfadis/textpattern-4.5.5/index.php",
+		"/home/frank/Uni/ZeLiM/zelimws1314/trunk/modules/Network/Network-java/src/zelim/network/ZelimNetworkUtils.java",
+		"/home/frank/Uni/ZeLiM/zelimws1314/trunk/modules/Network/Network-java/src/zelim/network/generated/EntryPoint.java",
+		"/home/frank/Uni/ZeLiM/zelimws1314/trunk/modules/BMSControl/src/BmsControlServer.java",
+		"/home/frank/Uni/ZeLiM/zelimws1314/trunk/scripts/killscript.sh",
+		"/home/frank/Projekte/andi/src/process.h",
+		"/home/frank/Uni/ZeLiM/zelimws1314/trunk/modules/LogDatabase/src/zelim/logdatabase/main/Main.java",
+		"/home/frank/Uni/ZeLiM/zelimws1314/trunk/modules/LogDatabase/src/zelim/logdatabase/DatabaseConnectorInterface.java",
+		"/home/frank/Uni/ZeLiM/zelimws1314/trunk/modules/LogDatabase/src/zelim/logdatabase/DatabaseServer.java",
+		"/home/frank/Uni/ZeLiM/zelimws1314/trunk/modules/LogDatabase/src/zelim/logdatabase/TokumxConnector.java",
+		"/home/frank/Projekte/podlove-web-player/src/js/modules/progressbar.js",
+		"/home/frank/Projekte/podlove-web-player/Makefile",
+		"/home/frank/Projekte/podlove-web-player/js/modules/progressbar.js",
+		"/home/frank/Dropbox/Das Abenteuer/abenteuer.tex",
+		"/home/frank/Projekte/Das Abenteuer/abenteuer.tex",
+		"/home/frank/Pfadis/Dokumente/KSG Vortrag/KSG-Vortrag.tex",
+		"/home/frank/.zsh/agnoster.zsh-theme",
+		"/home/frank/Uni/ZeLim/zelimws1314/trunk/scripts/build_v2.sh",
+		"/home/frank/Uni/ZeLim/zelimws1314/trunk/scripts/build_v3.sh",
+		"/home/frank/Uni/ZeLim/zelimws1314/trunk/makefile",
+		"/home/frank/Uni/ZeLim/zelimws1314/trunk/modules/Test/ConfigDbSimulator/Makefile",
+		"/home/frank/Uni/ZeLim/zelimws1314/trunk/modules/BatterySim/Makefile",
+		"/home/frank/Uni/ZeLim/zelimws1314/trunk/modules/Test/LogDbSimulator/Makefile",
+		"/home/frank/Uni/ZeLim/zelimws1314/trunk/modules/Runtime_Verification/Makefile",
+		"/home/frank/Uni/ZeLim/zelimws1314/trunk/modules/ConfigDatabase/Makefile",
+		"/home/frank/Uni/ZeLim/zelimws1314/trunk/modules/LogDatabase/Makefile",
+		"/home/frank/Uni/ZeLim/zelimws1314/trunk/modules/Filter/Makefile",
+		"/home/frank/Uni/ZeLim/zelimws1314/trunk/modules/EntryPoint/Makefile",
+		"/home/frank/Uni/ZeLim/zelimws1314/trunk/modules/BMSControl/Makefile",
+		"/home/frank/Uni/ZeLim/zelimws1314/trunk/modules/ConfigDatabase/Makfile",
+		"/home/frank/Projekte/Quick-Reply/rewrite.js",
+		"/home/frank/Projekte/podlove-web-player/js/modules/chapter.js",
+		"/home/frank/Projekte/random distance/radi.rs",
+		"/home/frank/Projekte/rusta/src/Makefile",
+		"/home/frank/Projekte/np/src/np.c",
+		"/home/frank/Projekte/np/src/Makefile",
+		"/media/frank/Rosskuppel/mov/Filme/vlc.txt",
+		"/media/frank/Rosskuppel/mov/Filme/transcode.sh",
+		"/home/frank/Projekte/podlove-web-player/js/timeline.js",
+		"/home/frank/Projekte/podlove-web-player/js/timecode.js",
+		"/home/frank/Projekte/podlove-web-player/js/player.js",
+		"/home/frank/Projekte/podlove-web-player/js/app.js",
+		"/media/frank/Rosskuppel/mov/SimpleMovieCatalog/config.txt",
+		"/media/frank/Rosskuppel/mov/SimpleMovieCatalog/readme.txt",
+		"/media/frank/494B-84A3/Desktop/L/uni/Vorlesung.htm",
+		"/home/frank/Projekte/podlove-web-player/js/modules/savetime.js",
+		"/home/frank/Projekte/podlove-web-player/js/controls.js",
+		"/home/frank/Projekte/podlove-web-player/js/url.js",
+		"/home/frank/Projekte/podlove-web-player/js/moderator.js",
+		"/home/frank/Projekte/podlove-web-player/libs/jquery-1.9.1.min.js",
+		"/home/frank/Uni/Programmierung Praktikum/elektroroller/trunk/clients/can/test/push.c",
+		"/home/frank/Uni/Programmierung Praktikum/elektroroller/trunk/clients/can/can.c",
+		"/home/frank/Projekte/podlove-web-player/js/tabregistry.js",
+		"/home/frank/.zshrc",
+		"/home/frank/Projekte/podlove-web-player/js/tab.js",
+		"/home/frank/Projekte/podlove-web-player/js/tabs/chapter.js",
+		"/home/frank/Projekte/podlove-web-player/static/podlove-web-player.css",
+		"/home/frank/Uni/Programmierung Praktikum/elektroroller/trunk/clients/display/websocket.js",
+		"/home/frank/Uni/Programmierung Praktikum/elektroroller/trunk/clients/display/sevensegment.js",
+		"/home/frank/Uni/Programmierung Praktikum/elektroroller/trunk/clients/display/script.js",
+		"/home/frank/Uni/Programmierung Praktikum/elektroroller/trunk/clients/display/roundbarwidget.js",
+		"/home/frank/Uni/Programmierung Praktikum/elektroroller/trunk/clients/display/columnwidget.js",
+		"/home/frank/Uni/Programmierung Praktikum/elektroroller/trunk/clients/display/battery.js",
+		"/home/frank/Uni/Programmierung Praktikum/elektroroller/trunk/clients/display/display.html",
+		"/home/frank/Uni/Programmierung Praktikum/elektroroller/trunk/clients/display/utils.js",
+		"/home/frank/Uni/Programmierung Praktikum/elektroroller/trunk/clients/display/speedo.js"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"auto",
+			"255",
+			"length",
+			"psaca",
+			"suffixArrayInternal",
+			"return",
+			"=",
+			"that is",
+			"get_",
+			"_",
+			"find_",
+			"table",
+			"conserved",
+			"=",
+			"lstli",
+			"=",
+			"LR",
+			"mum",
+			"Verlag",
+			"DNA",
+			"X",
+			"$",
+			"TXA",
+			"\\string",
+			"l",
+			"conser",
+			"$",
+			"bibliographystyle",
+			"ds",
+			" i",
+			"i",
+			"derp",
+			"DEFAULT_LENGT_H",
+			"DEFAULT__D",
+			"DEFAULT_LIN_E",
+			"divRng",
+			"seqRng",
+			"length",
+			"eqS",
+			"foo",
+			"printSeq",
+			"lineLength",
+			"notAny",
+			"(\\w+)([A-Z])",
+			"window",
+			"(\\w+)_seq",
+			"free_seq",
+			"(\\w+)_dsa",
+			"seq_t",
+			"dsa_t",
+			"_dsa",
+			"_seq",
+			"seq",
+			"\\n",
+			"Network-java",
+			"Schwarz",
+			"schwarzen",
+			"schwarze",
+			"gehen",
+			"Preferen",
+			"GM_log",
+			"cl(",
+			"$1",
+			"/Network",
+			"npm",
+			"_errorCode",
+			"handleMouseMove",
+			"images",
+			";",
+			"~/zelim2/trunk/build",
+			" ~/zelim2/trunk/build",
+			"~/zelim2/trunk/build",
+			"BUILDDIR",
+			"\\$([A-Z]+)",
+			"$([A-Z]+)",
+			"ZelimNetwork",
+			" 		[OK]",
+			"/root/zelim2/trunk/modules/",
+			"exit",
+			"ConfigDbSimulator",
+			"Compiling",
+			"\n\n\n\n\n\ncp -f ConfigDatabase.jar ~/zelim2/trunk/build/;\ncp -f configdb.properties ~/zelim2/trunk/build/;\n",
+			"~/zelim2/trunk/build/",
+			"/root/zelim2/trunk/modules",
+			"qr_customsmileys",
+			"storage.get()",
+			"')\n",
+			"k",
+			"DEFAULT_K",
+			"70",
+			"rng",
+			"4u",
+			"addressCurrentTime",
+			"checkTime",
+			"jQobject",
+			"addressCurrentTime",
+			"checkTime",
+			"deeplink",
+			"checkCurrent",
+			"checkCurrentURL",
+			"startAtTime",
+			"Controls",
+			"timeline",
+			"player",
+			"char",
+			"sprintf",
+			"optional",
+			"timeline",
+			"Timeline",
+			"getMaxChapterStart",
+			"logCurrentTime",
+			"saveTime",
+			"SaveTime",
+			"@arg",
+			">[ ]+\\n",
+			"<",
+			";",
+			"}",
+			"{",
+			"16:9",
+			"schwarz",
+			"access",
+			"length",
+			"crop",
+			"</?div>",
+			"counterc",
+			"console.log",
+			"play()"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"\\ac{DNA}",
+			"\\word",
+			"\\1_\\2",
+			"seq_\\1",
+			"dsa_\\1",
+			":",
+			"schwarz",
+			"$(\\1)",
+			"seqRng",
+			"@param",
+			">\\n",
+			"",
+			"fore",
+			"",
+			"back",
+			"anim",
+			"back",
+			"bar",
+			"height",
+			"width",
+			"height",
+			"prop",
+			"ctx",
+			"\\1",
+			"ctx",
+			"this",
+			"numOfProps",
+			"ConvTests",
+			"conv",
+			"MultTests",
+			"",
+			"AddTests",
+			"s",
+			"socket_num",
+			"",
+			"shift",
+			"audio",
+			"dambf"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/psufsort.cxx",
+					"settings":
+					{
+						"buffer_size": 1446,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								158,
+								158
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 202.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 112.0
+	},
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"process.cpp",
+				"/home/frank/Projekte/andi/src/process.cpp"
+			],
+			[
+				"sequence.cpp",
+				"/home/frank/Projekte/andi/src/sequence.cpp"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true
+}
