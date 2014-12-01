@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"str",
+				"string"
+			],
+			[
 				"for",
 				"forv	Vector For Loop"
 			],
@@ -348,10 +352,6 @@
 				"highlightColors"
 			],
 			[
-				"str",
-				"strokeStyle"
-			],
-			[
 				"ani",
 				"animation"
 			],
@@ -520,10 +520,18 @@
 	"buffers":
 	[
 		{
+			"file": "Makefile",
+			"settings":
+			{
+				"buffer_size": 193,
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "src/psufsort.cxx",
 			"settings":
 			{
-				"buffer_size": 1446,
+				"buffer_size": 1774,
 				"line_ending": "Unix"
 			}
 		}
@@ -809,6 +817,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"depth",
 			"auto",
 			"255",
 			"length",
@@ -935,8 +944,7 @@
 			"crop",
 			"</?div>",
 			"counterc",
-			"console.log",
-			"play()"
+			"console.log"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -992,23 +1000,49 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/psufsort.cxx",
+					"file": "Makefile",
 					"settings":
 					{
-						"buffer_size": 1446,
+						"buffer_size": 193,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								158,
-								158
+								193,
+								193
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Makefile/Makefile.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/psufsort.cxx",
+					"settings":
+					{
+						"buffer_size": 1774,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1679,
+								1679
 							]
 						],
 						"settings":
@@ -1017,7 +1051,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 594.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

@@ -10,10 +10,10 @@ std::vector<int> psufsort(std::string);
 void saca_wrapper(std::string str){
 	auto SA = psufsort(str);
 
-	/*or (auto i = SA.begin(); i != SA.end(); ++i)
+	for (auto i = SA.begin(); i != SA.end(); ++i)
 	{
-		std::cout << *i << std::endl;
-	}*/
+		std::cout << *i << " " << str.data()+*i << std::endl;
+	}
 
-	sufcheck((const unsigned char*)str.data(), SA.data(), str.size()+1, 1);
+	//sufcheck((const unsigned char*)str.data(), SA.data(), str.size()+1, 1);
 }

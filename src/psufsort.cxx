@@ -5,7 +5,22 @@
 #include <cstring>
 #include <algorithm>
 
+void TSQS (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
+
 std::vector<int> psufsort(std::string T){
+	auto n = T.size();
+	auto SA = std::vector<int>(n+1);
+
+	for(auto i=0; i<n+1;i++){
+		SA[i] = i;
+	}
+
+	TSQS(SA, T, 0, n, 0);
+
+	return SA;
+}
+
+/*std::vector<int> psufsort(std::string T){
 	auto n = T.size();
 	auto SA = std::vector<int>(n+1);
 	auto suff = [&](size_t i){
@@ -71,4 +86,51 @@ std::vector<int> psufsort(std::string T){
 	}
 
 	return std::move(SA); // move doesnt move
+}*/
+
+void swap_range(int *A, int *B, size_t n){
+	for(auto i=0; i< n; i++){
+		std::swap(A[i], B[i]);
+	}
+}
+
+void TSQS (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth){
+	auto key = [&](size_t i){
+		return (T.data() + SA[i])[depth];
+	};
+
+	auto K = key(l); // pick K
+
+	auto a = l;
+	auto b = l;
+	auto c = r;
+	auto d = r;
+
+	do {
+		for(; b <= c && key(b) <= K; b++){
+			if( key(b) == K){
+				std::swap(SA[a], SA[b]);
+				a++;
+			}
+		}
+
+		for(; b <= c && key(c) >= K; c--){
+			if( key(c) == K){
+				std::swap(SA[c],SA[d]);
+				d--;
+			}
+		}
+
+		if( b < c){
+			std::swap(SA[b],SA[c]);
+			b++, c--;
+			continue;
+		}
+	} while(b < c);
+
+	auto m = std::min(a-l, b-a);
+	swap_range(SA.data()+l, SA.data()+c-m+1, m);
+
+	m = std::min(d-c, r-d);
+	swap_range(SA.data()+b, SA.data()+r-m+1, m);
 }
