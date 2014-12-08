@@ -41,9 +41,13 @@
 #include <omp.h>
 #endif
 
+#include "flags.h"
+
 /* Global variables */
 int FLAGS = 0;
 int THREADS = 1;
+
+
 
 void usage(void);
 void version(void);
@@ -79,6 +83,7 @@ int main( int argc, char *argv[]){
 				usage();
 				break;
 			case 'v':
+				FLAGS |= F_VERBOSE;
 				break;
 #ifdef _OPENMP
 			case 't':

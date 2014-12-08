@@ -4,6 +4,7 @@
 #include <utility>
 #include <cstring>
 #include <algorithm>
+#include <iostream>
 
 void mk_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
 void insertion_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
@@ -18,7 +19,7 @@ std::vector<int> psufsort(std::string T){
 		SA[i] = i;
 	}
 
-	mk_sort(SA, T, 0, n, 0);
+	mk_sort(SA, T, 0, n+2, 0);
 
 	return SA;
 }
@@ -98,6 +99,7 @@ void swap_range(int *A, int *B, size_t n){
 }
 
 void mk_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth) {
+	std::clog << l << " " << r << std::endl;
 	if(l >= r){
 		return;
 	}
@@ -106,8 +108,9 @@ void mk_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, si
 	if( m < 2 ){
 		return;
 	}
-	if (m <= 44){
-		insertion_sort(SA, T, l, r, depth);
+
+	if (m <= 4){
+		mk_buildin(SA, T, l, r, depth);
 		return;
 	}
 
@@ -146,7 +149,7 @@ void mk_buildin (std::vector<int>& SA, const std::string& T, size_t l, size_t r,
 		return sc.cmp_from(a,b,depth) < 0;
 	};
 
-	std::sort(SA.begin()+l, SA.begin()+r+1, cmp);
+	std::sort(SA.begin()+l, SA.begin()+r, cmp);
 }
 
 void insertion_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth){
@@ -155,7 +158,7 @@ void insertion_sort (std::vector<int>& SA, const std::string& T, size_t l, size_
 		return T.data() + SA[i] + depth;
 	};
 
-	for(auto j = l+1; j <= r; j++){
+	for(auto j = l+1; j < r; j++){
 		auto X = SA[j];
 
 		auto i = j;
@@ -174,12 +177,14 @@ void TSQS (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_
 
 	auto K = key(l); // pick K
 
+	std::clog << K << std::endl;
+
 	auto a = l;
 	auto b = l;
-	auto c = r;
-	auto d = r;
+	auto c = r-1;
+	auto d = r-1;
 
-	do {
+	while(true) {
 		for(; b <= c && key(b) <= K; b++){
 			if( key(b) == K){
 				std::swap(SA[a], SA[b]);
@@ -194,20 +199,23 @@ void TSQS (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_
 			}
 		}
 
-		if( b < c){
-			std::swap(SA[b],SA[c]);
-			b++, c--;
-			continue;
-		}
-	} while(b < c);
+		if( b > c) break;
+
+		std::swap(SA[b],SA[c]);
+		b++, c--;
+	}
 
 	auto m = std::min(a-l, b-a);
-	swap_range(SA.data()+l, SA.data()+c-m+1, m);
-	mk_sort(SA,T,l,l+(b-a),depth);
+	swap_range(SA.data()+l, SA.data()+b-m, m);
 
 	m = std::min(d-c, r-d);
-	swap_range(SA.data()+b, SA.data()+r-m+1, m);
-	mk_sort(SA,T,r-(d-c),r,depth);
+	swap_range(SA.data()+b, SA.data()+r-m, m);
 
-	mk_sort(SA,T,b,c,depth+1);
+	auto i = l + b - a;
+	auto j = r - d + c;
+
+	mk_sort(SA,T,l,i,depth);
+	mk_sort(SA,T,i,j,depth+1);
+	mk_sort(SA,T,j,r,depth);
+
 }
