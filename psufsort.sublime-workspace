@@ -4,12 +4,28 @@
 		"selected_items":
 		[
 			[
+				"cmp",
+				"cmp_from"
+			],
+			[
 				"str",
-				"string"
+				"strcmp"
+			],
+			[
+				"_",
+				"_T"
+			],
+			[
+				"de",
+				"depth"
 			],
 			[
 				"for",
-				"forv	Vector For Loop"
+				"for	For Loop"
+			],
+			[
+				"swap",
+				"swap_range"
 			],
 			[
 				"siz",
@@ -110,10 +126,6 @@
 			[
 				"def",
 				"defaultBasicBundle"
-			],
-			[
-				"de",
-				"defaultBundle"
 			],
 			[
 				"Tas",
@@ -502,18 +514,6 @@
 			[
 				"odo_m",
 				"odo_mi"
-			],
-			[
-				"speed",
-				"speed_kmph"
-			],
-			[
-				"trip_",
-				"trip_km"
-			],
-			[
-				"tagesk",
-				"Tageskilometer"
 			]
 		]
 	},
@@ -523,15 +523,50 @@
 			"file": "Makefile",
 			"settings":
 			{
-				"buffer_size": 193,
+				"buffer_size": 204,
 				"line_ending": "Unix"
 			}
 		},
 		{
+			"contents": "\n#include <string>\n#include <vector>\n#include <utility>\n#include <cstring>\n#include <algorithm>\n\nvoid mk_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);\nvoid insertion_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);\nvoid TSQS (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);\nvoid mk_buildin (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);\n\nstd::vector<int> psufsort(std::string T){\n	auto n = T.size();\n	auto SA = std::vector<int>(n+1);\n\n	for(auto i=0; i<n+1;i++){\n		SA[i] = i;\n	}\n\n	mk_sort(SA, T, 0, n, 0);\n\n	return SA;\n}\n\n/*std::vector<int> psufsort(std::string T){\n	auto n = T.size();\n	auto SA = std::vector<int>(n+1);\n	auto suff = [&](size_t i){\n		return T.data() + i;\n	};\n\n	auto bucket_A = std::vector<std::pair<int,int>>(256,std::make_pair(0,0));\n	auto bucket_B = std::vector<std::pair<int,int>>(256,std::make_pair(0,0));\n	//auto bucket_S = std::vector<std::pair<int,int>>(256,std::make_pair(0,0)); // B*\n\n	size_t i;\n	for(i=0; i<n; i++){ // TODO: n-1?\n		auto c = T[i];\n		auto d = T[i+1];\n		if( c > d){\n			bucket_A[c].first++;\n		} else {\n			bucket_B[c].first++;\n		}\n	}\n	bucket_B[0].first = 1;\n\n	int c = 0;\n	for(i=0; i<256; i++){\n		bucket_A[i].second = c;\n		c += bucket_A[i].first + bucket_B[i].first;\n		bucket_B[i].second = c;\n	}\n\n	for( i=0; i<n; i++){\n		char c = T[i];\n		if( c <= T[i+1]){\n			bucket_B[c].second--;\n			SA[bucket_B[c].second] = i;\n		}\n	}\n\n	SA[0] = n;\n\n	for(i=0; i<256; i++){\n		if( bucket_B[i].first > 1){\n			int b = bucket_B[i].second;\n			int e = b + bucket_B[i].first;\n			// sort\n			auto cmp = [&](int a, int b){\n				auto ta = suff(a);\n				auto tb = suff(b);\n\n				auto res = strcmp(ta, tb) < 0;\n				return res;\n			};\n\n			std::sort(SA.begin()+b, SA.begin()+e, cmp);\n		}\n	}\n\n	for(i=0; i<n; i++){\n		auto a = T[SA[i]-1];\n		if( a > T[SA[i]]){\n			SA[bucket_A[a].second] = SA[i] -1;\n			bucket_A[a].second++;\n		}\n	}\n\n	return std::move(SA); // move doesnt move\n}*/\n\nvoid swap_range(int *A, int *B, size_t n){\n	for(auto i=0; i< n; i++){\n		std::swap(A[i], B[i]);\n	}\n}\n\nvoid mk_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth) {\n	if(l >= r){\n		return;\n	}\n\n	auto m = r - l;\n	if( m < 2 ){\n		return;\n	}\n	if (m <= 44){\n		insertion_sort(SA, T, l, r, depth);\n		return;\n	}\n\n	TSQS(SA,T,l,r,depth);\n}\n\nclass sufcmp {\n	const std::vector<int>& SA;\n	const std::string& T;\npublic:\n	sufcmp(const std::vector<int>& _SA, const std::string& _T) : SA(_SA), T(_T) {};\n	~sufcmp() {};\n\n	int cmp_from( size_t a, size_t b, size_t depth){\n		auto ta = T.data()+ a +depth;\n		auto tb = T.data()+ b +depth;\n\n		return strcmp(ta,tb);\n	};\n\n	class Suffix {\n		size_t offset;\n	public:\n		Suffix(int arguments);\n		~Suffix();\n\n		/* data */\n	};\n};\n\n\n\nvoid mk_buildin (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth){\n	auto sc = sufcmp(SA,T);\n	auto cmp = [&](int a, int b){\n		return sc.cmp_from(a,b,depth) < 0;\n	};\n\n	std::sort(SA.begin()+l, SA.begin()+r+1, cmp);\n}\n\nvoid insertion_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth){\n	auto sc = sufcmp(SA,T);\n	auto key = [&](size_t i){\n		return T.data() + SA[i] + depth;\n	};\n\n	for(auto j = l+1; j <= r; j++){\n		auto R = SA[j];\n\n		auto i = j - 1;\n		for(; i > l+1 && sc.cmp_from( SA[i], R, depth) > 0 ; i--){\n			SA[i+1] = SA[i];\n		}\n		SA[i+1] = R;\n	}\n}\n\nvoid TSQS (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth){\n	auto key = [&](size_t i){\n		return (T.data() + SA[i])[depth];\n	};\n\n	auto K = key(l); // pick K\n\n	auto a = l;\n	auto b = l;\n	auto c = r;\n	auto d = r;\n\n	do {\n		for(; b <= c && key(b) <= K; b++){\n			if( key(b) == K){\n				std::swap(SA[a], SA[b]);\n				a++;\n			}\n		}\n\n		for(; b <= c && key(c) >= K; c--){\n			if( key(c) == K){\n				std::swap(SA[c],SA[d]);\n				d--;\n			}\n		}\n\n		if( b < c){\n			std::swap(SA[b],SA[c]);\n			b++, c--;\n			continue;\n		}\n	} while(b < c);\n\n	auto m = std::min(a-l, b-a);\n	swap_range(SA.data()+l, SA.data()+c-m+1, m);\n	mk_sort(SA,T,l,l+(b-a),depth);\n\n	m = std::min(d-c, r-d);\n	swap_range(SA.data()+b, SA.data()+r-m+1, m);\n	mk_sort(SA,T,r-(d-c),r,depth);\n\n	mk_sort(SA,T,b,c,depth+1);\n}\n",
 			"file": "src/psufsort.cxx",
+			"file_size": 4177,
+			"file_write_time": 1417789603000000,
 			"settings":
 			{
-				"buffer_size": 1774,
+				"buffer_size": 4194,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "common/psufsort_wrapper.cxx",
+			"settings":
+			{
+				"buffer_size": 392,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/kloetzl/Projects/pSACA/libdivsufsort-2.0.1/lib/trsort.c",
+			"settings":
+			{
+				"buffer_size": 17794,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/kloetzl/Projects/libdivsufsort-2.0.1/lib/sssort.c",
+			"settings":
+			{
+				"buffer_size": 24117,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/kloetzl/Projects/libdivsufsort-2.0.1/lib/divsufsort.c",
+			"settings":
+			{
+				"buffer_size": 11728,
 				"line_ending": "Unix"
 			}
 		}
@@ -672,13 +707,14 @@
 	},
 	"file_history":
 	[
+		"/home/kloetzl/Projects/psufsort/AAGTAAGG",
+		"/home/kloetzl/Projects/pSACA/libdivsufsort-2.0.1/lib/utils.c",
 		"/home/kloetzl/Projects/pSACA/psufsort_wrapper.cxx",
 		"/home/kloetzl/Projects/pSACA/divsufsort_wrapper.cxx",
 		"/home/kloetzl/Projects/pSACA/psufsort_src/psufsort.cxx",
 		"/home/kloetzl/Projects/pSACA/10.fa",
 		"/home/kloetzl/Projects/pSACA/10",
 		"/home/kloetzl/Projects/pSACA/psufsort/psufsort.cxx",
-		"/home/kloetzl/Projects/pSACA/libdivsufsort-2.0.1/lib/utils.c",
 		"/home/kloetzl/Projects/pSACA/PBBS/parallelKS/pks.C",
 		"/home/kloetzl/Projects/pSACA/PBBS_range_wrapper.cxx",
 		"/home/kloetzl/Projects/pSACA/PBBS_KS_wrapper.cxx",
@@ -798,8 +834,7 @@
 		"/home/frank/Uni/Programmierung Praktikum/elektroroller/trunk/clients/display/columnwidget.js",
 		"/home/frank/Uni/Programmierung Praktikum/elektroroller/trunk/clients/display/battery.js",
 		"/home/frank/Uni/Programmierung Praktikum/elektroroller/trunk/clients/display/display.html",
-		"/home/frank/Uni/Programmierung Praktikum/elektroroller/trunk/clients/display/utils.js",
-		"/home/frank/Uni/Programmierung Praktikum/elektroroller/trunk/clients/display/speedo.js"
+		"/home/frank/Uni/Programmierung Praktikum/elektroroller/trunk/clients/display/utils.js"
 	],
 	"find":
 	{
@@ -817,6 +852,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"tr_insertionsort",
+			"MKQS",
 			"depth",
 			"auto",
 			"255",
@@ -942,9 +979,7 @@
 			"access",
 			"length",
 			"crop",
-			"</?div>",
-			"counterc",
-			"console.log"
+			"</?div>"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1000,7 +1035,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -1008,15 +1043,15 @@
 					"file": "Makefile",
 					"settings":
 					{
-						"buffer_size": 193,
+						"buffer_size": 204,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								193,
-								193
+								204,
+								204
 							]
 						],
 						"settings":
@@ -1034,15 +1069,15 @@
 					"file": "src/psufsort.cxx",
 					"settings":
 					{
-						"buffer_size": 1774,
+						"buffer_size": 4194,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1679,
-								1679
+								2782,
+								2782
 							]
 						],
 						"settings":
@@ -1051,7 +1086,117 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 594.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "common/psufsort_wrapper.cxx",
+					"settings":
+					{
+						"buffer_size": 392,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								392,
+								392
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/home/kloetzl/Projects/pSACA/libdivsufsort-2.0.1/lib/trsort.c",
+					"settings":
+					{
+						"buffer_size": 17794,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3756,
+								3756
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/home/kloetzl/Projects/libdivsufsort-2.0.1/lib/sssort.c",
+					"settings":
+					{
+						"buffer_size": 24117,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6123,
+								6123
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2370.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/home/kloetzl/Projects/libdivsufsort-2.0.1/lib/divsufsort.c",
+					"settings":
+					{
+						"buffer_size": 11728,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4997,
+								4997
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2291.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
