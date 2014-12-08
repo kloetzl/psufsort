@@ -5,7 +5,10 @@
 #include <cstring>
 #include <algorithm>
 
+void mk_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
+void insertion_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
 void TSQS (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
+void mk_buildin (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
 
 std::vector<int> psufsort(std::string T){
 	auto n = T.size();
@@ -15,7 +18,7 @@ std::vector<int> psufsort(std::string T){
 		SA[i] = i;
 	}
 
-	TSQS(SA, T, 0, n, 0);
+	mk_sort(SA, T, 0, n, 0);
 
 	return SA;
 }
@@ -94,6 +97,76 @@ void swap_range(int *A, int *B, size_t n){
 	}
 }
 
+void mk_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth) {
+	if(l >= r){
+		return;
+	}
+
+	auto m = r - l;
+	if( m < 2 ){
+		return;
+	}
+	if (m <= 44){
+		insertion_sort(SA, T, l, r, depth);
+		return;
+	}
+
+	TSQS(SA,T,l,r,depth);
+}
+
+class sufcmp {
+	const std::vector<int>& SA;
+	const std::string& T;
+public:
+	sufcmp(const std::vector<int>& _SA, const std::string& _T) : SA(_SA), T(_T) {};
+	~sufcmp() {};
+
+	int cmp_from( size_t a, size_t b, size_t depth){
+		auto ta = T.data()+ a +depth;
+		auto tb = T.data()+ b +depth;
+
+		return strcmp(ta,tb);
+	};
+
+	class Suffix {
+		size_t offset;
+	public:
+		Suffix(int arguments);
+		~Suffix();
+
+		/* data */
+	};
+};
+
+
+
+void mk_buildin (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth){
+	auto sc = sufcmp(SA,T);
+	auto cmp = [&](int a, int b){
+		return sc.cmp_from(a,b,depth) < 0;
+	};
+
+	std::sort(SA.begin()+l, SA.begin()+r+1, cmp);
+}
+
+void insertion_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth){
+	auto sc = sufcmp(SA,T);
+	auto key = [&](size_t i){
+		return T.data() + SA[i] + depth;
+	};
+
+	for(auto j = l+1; j <= r; j++){
+		auto X = SA[j];
+
+		auto i = j;
+		for(; i > l && sc.cmp_from( SA[i-1], X, depth) > 0 ; i--){
+			SA[i] = SA[i-1];
+		}
+
+		SA[i] = X;
+	}
+}
+
 void TSQS (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth){
 	auto key = [&](size_t i){
 		return (T.data() + SA[i])[depth];
@@ -130,7 +203,11 @@ void TSQS (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_
 
 	auto m = std::min(a-l, b-a);
 	swap_range(SA.data()+l, SA.data()+c-m+1, m);
+	mk_sort(SA,T,l,l+(b-a),depth);
 
 	m = std::min(d-c, r-d);
 	swap_range(SA.data()+b, SA.data()+r-m+1, m);
+	mk_sort(SA,T,r-(d-c),r,depth);
+
+	mk_sort(SA,T,b,c,depth+1);
 }
