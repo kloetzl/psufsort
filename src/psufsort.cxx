@@ -69,7 +69,7 @@ std::vector<int> psufsort(std::string T){
 
 	SA[0] = n;
 
-	#pragma omp parallel for shared(SA,T)
+	#pragma omp parallel for shared(SA,T) schedule(dynamic, 1)
 	for(i=0; i<256; i++){
 		if( bucket_B[i].first > 1){
 			int b = bucket_B[i].second;
