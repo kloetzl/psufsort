@@ -35,6 +35,8 @@ std::vector<int> psufsort(std::string T){
 	auto bucket_B = std::vector<std::pair<int,int>>(256,std::make_pair(0,0));
 	//auto bucket_S = std::vector<std::pair<int,int>>(256,std::make_pair(0,0)); // B*
 
+	size_t bcounter = 0;
+
 	size_t i;
 	for(i=0; i<n; i++){ // TODO: n-1?
 		auto c = T[i];
@@ -42,10 +44,13 @@ std::vector<int> psufsort(std::string T){
 		if( c > d){
 			bucket_A[c].first++;
 		} else {
+			bcounter++;
 			bucket_B[c].first++;
 		}
 	}
 	bucket_B[0].first = 1;
+
+	std::clog << bcounter << std::endl;
 
 	int c = 0;
 	for(i=0; i<256; i++){
@@ -64,6 +69,7 @@ std::vector<int> psufsort(std::string T){
 
 	SA[0] = n;
 
+	#pragma omp parallel for shared(SA,T)
 	for(i=0; i<256; i++){
 		if( bucket_B[i].first > 1){
 			int b = bucket_B[i].second;
@@ -75,9 +81,12 @@ std::vector<int> psufsort(std::string T){
 	}
 
 	for(i=0; i<n; i++){
-		auto a = T[SA[i]-1];
-		if( a > T[SA[i]]){
-			SA[bucket_A[a].second] = SA[i] -1;
+		int j = SA[i];
+		if( j == 0) continue;
+
+		auto a = T[j-1];
+		if( a > T[j]){
+			SA[bucket_A[a].second] = j -1;
 			bucket_A[a].second++;
 		}
 	}
@@ -101,8 +110,8 @@ void mk_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, si
 		return;
 	}
 
-	if (m <= 4){
-		mk_buildin(SA, T, l, r, depth);
+	if (m <= 16){
+		insertion_sort(SA, T, l, r, depth);
 		return;
 	}
 
