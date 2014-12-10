@@ -11,7 +11,7 @@ void insertion_sort (std::vector<int>& SA, const std::string& T, size_t l, size_
 void TSQS (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
 void mk_buildin (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
 
-std::vector<int> psufsort(std::string T){
+std::vector<int> psufsort2(std::string T){
 	auto n = T.size();
 	auto SA = std::vector<int>(n+1);
 
@@ -24,7 +24,7 @@ std::vector<int> psufsort(std::string T){
 	return SA;
 }
 
-/*std::vector<int> psufsort(std::string T){
+std::vector<int> psufsort(std::string T){
 	auto n = T.size();
 	auto SA = std::vector<int>(n+1);
 	auto suff = [&](size_t i){
@@ -68,16 +68,9 @@ std::vector<int> psufsort(std::string T){
 		if( bucket_B[i].first > 1){
 			int b = bucket_B[i].second;
 			int e = b + bucket_B[i].first;
+
 			// sort
-			auto cmp = [&](int a, int b){
-				auto ta = suff(a);
-				auto tb = suff(b);
-
-				auto res = strcmp(ta, tb) < 0;
-				return res;
-			};
-
-			std::sort(SA.begin()+b, SA.begin()+e, cmp);
+			mk_sort( SA, T, b, e, 1);
 		}
 	}
 
@@ -90,7 +83,7 @@ std::vector<int> psufsort(std::string T){
 	}
 
 	return std::move(SA); // move doesnt move
-}*/
+}
 
 void swap_range(int *A, int *B, size_t n){
 	for(auto i=0; i< n; i++){
