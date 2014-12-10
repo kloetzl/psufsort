@@ -19,7 +19,7 @@ std::vector<int> psufsort(std::string T){
 		SA[i] = i;
 	}
 
-	mk_sort(SA, T, 0, n+2, 0);
+	mk_sort(SA, T, 0, n+1, 0);
 
 	return SA;
 }
@@ -208,7 +208,7 @@ void TSQS (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_
 	auto m = std::min(a-l, b-a);
 	swap_range(SA.data()+l, SA.data()+b-m, m);
 
-	m = std::min(d-c, r-d);
+	m = std::min(d-c, r-d-1);
 	swap_range(SA.data()+b, SA.data()+r-m, m);
 
 	auto i = l + b - a;
