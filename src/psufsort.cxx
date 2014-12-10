@@ -99,7 +99,6 @@ void swap_range(int *A, int *B, size_t n){
 }
 
 void mk_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth) {
-	std::clog << l << " " << r << std::endl;
 	if(l >= r){
 		return;
 	}
@@ -176,8 +175,6 @@ void TSQS (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_
 	};
 
 	auto K = key(l); // pick K
-
-	std::clog << K << std::endl;
 
 	auto a = l;
 	auto b = l;
