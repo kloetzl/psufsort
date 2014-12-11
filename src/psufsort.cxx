@@ -64,20 +64,25 @@ std::vector<int> psufsort(std::string T){
 
 	SA[0] = n;
 
+	auto sorter = PSufSort(T,SA);
+
 	for(i=0; i<256; i++){
 		if( bucket_B[i].first > 1){
 			int b = bucket_B[i].second;
 			int e = b + bucket_B[i].first;
 
 			// sort
-			mk_sort( SA, T, b, e, 1);
+			sorter.sort( b, e, 1, 0);
 		}
 	}
 
 	for(i=0; i<n; i++){
-		auto a = T[SA[i]-1];
-		if( a > T[SA[i]]){
-			SA[bucket_A[a].second] = SA[i] -1;
+		auto j = SA[i];
+		if( j == 0) continue;
+
+		auto a = T[j-1];
+		if( a > T[j]){
+			SA[bucket_A[a].second] = j -1;
 			bucket_A[a].second++;
 		}
 	}
