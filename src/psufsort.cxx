@@ -11,18 +11,22 @@ void insertion_sort (std::vector<int>& SA, const std::string& T, size_t l, size_
 void TSQS (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
 void mk_buildin (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
 
-std::vector<int> psufsort2(std::string T){
-	auto n = T.size();
-	auto SA = std::vector<int>(n+1);
-
-	for(auto i=0; i<n+1;i++){
-		SA[i] = i;
+class PSufSort
+{
+	const std::string& T;
+	std::vector<int>& SA;
+public:
+	PSufSort(const std::string& _T, std::vector<int>& _SA) : T(_T), SA(_SA) {
+		auto n = T.size();
 	}
+	~PSufSort() {};
 
-	mk_sort(SA, T, 0, n+1, 0);
+	void sort(size_t l, size_t r, size_t depth, size_t calls);
+	void sort_tsqs(size_t l, size_t r, size_t depth, size_t calls);
+	void sort_insert(size_t l, size_t r, size_t depth, size_t calls);
 
-	return SA;
-}
+	void swap_range(size_t a, size_t b, size_t n);
+};
 
 std::vector<int> psufsort(std::string T){
 	auto n = T.size();
@@ -90,13 +94,13 @@ std::vector<int> psufsort(std::string T){
 	return std::move(SA); // move doesnt move
 }
 
-void swap_range(int *A, int *B, size_t n){
+void PSufSort::swap_range(size_t a, size_t b, size_t n){
 	for(auto i=0; i< n; i++){
-		std::swap(A[i], B[i]);
+		std::swap(this->SA[a++], this->SA[b++]);
 	}
 }
 
-void mk_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth) {
+void PSufSort::sort (size_t l, size_t r, size_t depth, size_t calls) {
 	if(l >= r){
 		return;
 	}
@@ -107,11 +111,11 @@ void mk_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, si
 	}
 
 	if (m <= 4){
-		mk_buildin(SA, T, l, r, depth);
+		sort_insert(l, r, depth, calls);
 		return;
 	}
 
-	TSQS(SA,T,l,r,depth);
+	this->sort_tsqs(l, r, depth, calls);
 }
 
 class sufcmp {
@@ -149,10 +153,10 @@ void mk_buildin (std::vector<int>& SA, const std::string& T, size_t l, size_t r,
 	std::sort(SA.begin()+l, SA.begin()+r, cmp);
 }
 
-void insertion_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth){
+void PSufSort::sort_insert (size_t l, size_t r, size_t depth, size_t unused){
 	auto sc = sufcmp(SA,T);
 	auto key = [&](size_t i){
-		return T.data() + SA[i] + depth;
+		return this->T.data() + SA[i] + depth;
 	};
 
 	for(auto j = l+1; j < r; j++){
@@ -167,10 +171,11 @@ void insertion_sort (std::vector<int>& SA, const std::string& T, size_t l, size_
 	}
 }
 
-void TSQS (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth){
+void PSufSort::sort_tsqs (size_t l, size_t r, size_t depth, size_t calls){
 	auto key = [&](size_t i){
-		return (T.data() + SA[i])[depth];
+		return (this->T.data() + SA[i])[depth];
 	};
+	auto SA = this->SA;
 
 	auto K = key(l); // pick K
 
@@ -201,16 +206,15 @@ void TSQS (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_
 	}
 
 	auto m = std::min(a-l, b-a);
-	swap_range(SA.data()+l, SA.data()+b-m, m);
+	swap_range(l, b-m, m);
 
 	m = std::min(d-c, r-d-1);
-	swap_range(SA.data()+b, SA.data()+r-m, m);
+	swap_range(b, r-m, m);
 
 	auto i = l + b - a;
 	auto j = r - d + c;
 
-	mk_sort(SA,T,l,i,depth);
-	mk_sort(SA,T,i,j,depth+1);
-	mk_sort(SA,T,j,r,depth);
-
+	this->sort(l, i, depth, calls + 1);
+	this->sort(i, j, depth+1, calls + 1);
+	this->sort(j, r, depth, calls + 1);
 }
