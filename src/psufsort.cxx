@@ -24,6 +24,11 @@ public:
 	void sort(size_t l, size_t r, size_t depth, size_t calls);
 	void sort_tsqs(size_t l, size_t r, size_t depth, size_t calls);
 	void sort_insert(size_t l, size_t r, size_t depth, size_t calls);
+	void sort_heap(size_t l, size_t	r, size_t depth, size_t calls);
+
+	void heapify( size_t left, size_t right);
+	void siftDown( size_t left, size_t start, size_t end);
+
 
 	void swap_range(size_t a, size_t b, size_t n);
 };
@@ -115,7 +120,7 @@ void PSufSort::sort (size_t l, size_t r, size_t depth, size_t calls) {
 		return;
 	}
 
-	this->sort_tsqs(l, r, depth, calls);
+	this->sort_heap(l, r, depth, calls);
 }
 
 class sufcmp {
@@ -218,3 +223,44 @@ void PSufSort::sort_tsqs (size_t l, size_t r, size_t depth, size_t calls){
 	this->sort(i, j, depth+1, calls + 1);
 	this->sort(j, r, depth, calls + 1);
 }
+
+void PSufSort::heapify( size_t left, size_t right){
+	auto n = right - left;
+	auto start = (n-2)/2 + left;
+
+	while( start >= left){
+		siftDown(left, start, n -1);
+		start --;
+	}
+}
+
+void PSufSort::siftDown( size_t left, size_t start, size_t end){
+	auto rroot = start - left;
+
+	while (rroot * 2 + 1 <= end ) {
+		auto child = rroot * 2 + 1;
+		auto swapp = rroot;
+
+		if( SA[left+swapp] < SA[left+child]) swapp = child;
+		if( child+1 <= end && SA[left+swapp] < SA[left+child+1]) swapp = child +1;
+		if( swapp = rroot) return;
+		else{
+			std::swap(SA[left+rroot],SA[left+swapp]);
+			rroot = swapp;
+		}
+	}
+}
+
+void PSufSort::sort_heap(size_t left, size_t right, size_t depth, size_t calls){
+	auto n = right - left;
+	
+	heapify(left, right);
+
+	auto end = right - 1;
+	while( end > left ){
+		std::swap(SA[end], SA[0]);
+		end--;
+		siftDown(left, 0, end);
+	}
+}
+
