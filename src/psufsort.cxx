@@ -5,6 +5,7 @@
 #include <cstring>
 #include <algorithm>
 #include <iostream>
+#include <cassert>
 
 void mk_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
 void insertion_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
@@ -26,8 +27,9 @@ public:
 	void sort_insert(size_t l, size_t r, size_t depth, size_t calls);
 	void sort_heap(size_t l, size_t	r, size_t depth, size_t calls);
 
-	void heapify( size_t left, size_t right);
-	void siftDown( size_t left, size_t start, size_t end);
+	void build_heap( int* rSA, size_t n);
+	void heapify( int* rSA, size_t heap_size, size_t i);
+
 
 
 	void swap_range(size_t a, size_t b, size_t n);
@@ -224,43 +226,62 @@ void PSufSort::sort_tsqs (size_t l, size_t r, size_t depth, size_t calls){
 	this->sort(j, r, depth, calls + 1);
 }
 
-void PSufSort::heapify( size_t left, size_t right){
-	auto n = right - left;
-	auto start = (n-2)/2 + left;
+size_t LEFT(size_t i){
+	return (i << 1) + 1;
+}
 
-	while( start >= left){
-		siftDown(left, start, n -1);
-		start --;
+size_t RIGHT(size_t i){
+	return (i << 1) + 2;
+}
+
+size_t PARENT( size_t i){
+	return (i-1) >> 1;
+}
+
+void PSufSort::build_heap( int* rSA, size_t n){
+	auto heap_size = n;
+	for( ssize_t i= PARENT(n-1); i>=0 ; i--){
+		heapify(rSA, heap_size, i);
 	}
 }
 
-void PSufSort::siftDown( size_t left, size_t start, size_t end){
-	auto rroot = start - left;
+void PSufSort::heapify( int* rSA, size_t heap_size, size_t i){ // aka. siftDown
+	auto key = [&](size_t j){
+		return T.data() + j + 1; //FIXME: depth
+	};
 
-	while (rroot * 2 + 1 <= end ) {
-		auto child = rroot * 2 + 1;
-		auto swapp = rroot;
+	auto l = LEFT(i);
+	auto r = RIGHT(i);
+	auto largest = i;
 
-		if( SA[left+swapp] < SA[left+child]) swapp = child;
-		if( child+1 <= end && SA[left+swapp] < SA[left+child+1]) swapp = child +1;
-		if( swapp = rroot) return;
-		else{
-			std::swap(SA[left+rroot],SA[left+swapp]);
-			rroot = swapp;
-		}
+	if( l < heap_size && key(rSA[l]) > key(rSA[i])){
+		largest = l;
+	}
+	if( r < heap_size && key(rSA[r]) > key(rSA[largest])){
+		largest = r;
+	}
+	if( largest != i){
+		std::swap(rSA[i], rSA[largest]);
+		heapify(rSA, heap_size, largest);
 	}
 }
 
 void PSufSort::sort_heap(size_t left, size_t right, size_t depth, size_t calls){
-	auto n = right - left;
-	
-	heapify(left, right);
+	auto key = [&](size_t j){
+		return T.data() + j + 1; //FIXME: depth
+	};
 
-	auto end = right - 1;
-	while( end > left ){
-		std::swap(SA[end], SA[0]);
-		end--;
-		siftDown(left, 0, end);
+	auto rSA = SA.data() + left;
+	auto n = right - left;
+	auto heap_size = n;
+	
+	build_heap(rSA, n);
+
+	for( auto i = n-1; i ; i--){
+		std::swap(rSA[0],rSA[i]);
+		assert(key(rSA[i]) > key(rSA[0]));
+		heap_size--;
+		heapify(rSA, heap_size, 0);
 	}
 }
 
