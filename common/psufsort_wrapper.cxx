@@ -8,14 +8,28 @@
 
 std::vector<int> psufsort(std::string);
 
+using std::string;
+
+void str_replace( string &s, const string &search, const string &replace ) {
+	for( size_t pos = 0; ; pos += replace.length() ) {
+		pos = s.find( search, pos );
+		if( pos == string::npos ) break;
+
+		s.erase( pos, search.length() );
+		s.insert( pos, replace );
+	}
+}
+
 
 void saca_wrapper(std::string str){
 	auto SA = psufsort(str);
 
 	if( FLAGS & F_VERBOSE){
-		for (auto i = SA.begin(); i != SA.end(); ++i)
-		{
-			std::cout << *i << " " << str.data()+*i << std::endl;
+		for (auto i = SA.begin(); i != SA.end(); ++i){
+			auto suff = std::string(str.data()+*i);
+			str_replace(suff, "\n", "\\n");
+
+			std::cout << *i << " " << suff << std::endl;
 		}
 	}
 
