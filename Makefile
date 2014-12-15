@@ -1,5 +1,5 @@
 
-CPPFLAGS += -std=c++1y -g -pg -O0
+CPPFLAGS += -std=c++1y -g -O0
 LIBS += -ldivsufsort
 
 psufsort: common/driver.cxx common/psufsort_wrapper.cxx src/psufsort.cxx

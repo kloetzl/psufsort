@@ -38,6 +38,15 @@ public:
 std::vector<int> psufsort(std::string T){
 	auto n = T.size();
 	auto SA = std::vector<int>(n+1);
+	auto sorter = PSufSort(T,SA);
+
+	for(auto i=0;i<n+1;i++)
+		SA[i]=i;
+
+	sorter.sort(0,n+1,0,0);
+	return SA;
+
+	
 	auto suff = [&](size_t i){
 		return T.data() + i;
 	};
@@ -75,8 +84,6 @@ std::vector<int> psufsort(std::string T){
 
 	SA[0] = n;
 
-	auto sorter = PSufSort(T,SA);
-
 	for(i=0; i<256; i++){
 		if( bucket_B[i].first > 1){
 			int b = bucket_B[i].second;
@@ -102,8 +109,10 @@ std::vector<int> psufsort(std::string T){
 }
 
 void PSufSort::swap_range(size_t a, size_t b, size_t n){
+	auto& SA = this->SA;
+
 	for(auto i=0; i< n; i++){
-		std::swap(this->SA[a++], this->SA[b++]);
+		std::swap(SA[a++], SA[b++]);
 	}
 }
 
@@ -122,7 +131,7 @@ void PSufSort::sort (size_t l, size_t r, size_t depth, size_t calls) {
 		return;
 	}
 
-	this->sort_heap(l, r, depth, calls);
+	this->sort_tsqs(l, r, depth, calls);
 }
 
 class sufcmp {
@@ -182,7 +191,7 @@ void PSufSort::sort_tsqs (size_t l, size_t r, size_t depth, size_t calls){
 	auto key = [&](size_t i){
 		return (this->T.data() + SA[i])[depth];
 	};
-	auto SA = this->SA;
+	auto& SA = this->SA;
 
 	auto K = key(l); // pick K
 
@@ -247,17 +256,17 @@ void PSufSort::build_heap( int* rSA, size_t n){
 
 void PSufSort::heapify( int* rSA, size_t heap_size, size_t i){ // aka. siftDown
 	auto key = [&](size_t j){
-		return T.data() + j + 1; //FIXME: depth
+		return T.data() + j + 0; //FIXME: depth
 	};
 
 	auto l = LEFT(i);
 	auto r = RIGHT(i);
 	auto largest = i;
 
-	if( l < heap_size && key(rSA[l]) > key(rSA[i])){
+	if( l < heap_size && strcmp( key(rSA[l]) , key(rSA[i])) > 0 ){
 		largest = l;
 	}
-	if( r < heap_size && key(rSA[r]) > key(rSA[largest])){
+	if( r < heap_size && strcmp( key(rSA[r]) , key(rSA[largest])) > 0){
 		largest = r;
 	}
 	if( largest != i){
@@ -279,7 +288,7 @@ void PSufSort::sort_heap(size_t left, size_t right, size_t depth, size_t calls){
 
 	for( auto i = n-1; i ; i--){
 		std::swap(rSA[0],rSA[i]);
-		assert(key(rSA[i]) > key(rSA[0]));
+		//assert(key(rSA[i]) > key(rSA[0]));
 		heap_size--;
 		heapify(rSA, heap_size, 0);
 	}
