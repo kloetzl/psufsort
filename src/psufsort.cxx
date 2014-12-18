@@ -27,8 +27,8 @@ public:
 	void sort_insert(size_t l, size_t r, size_t depth, size_t calls);
 	void sort_heap(size_t l, size_t	r, size_t depth, size_t calls);
 
-	void build_heap( int* rSA, size_t n);
-	void heapify( int* rSA, size_t heap_size, size_t i);
+	void build_heap( int* rSA, size_t n, size_t depth);
+	void heapify( int* rSA, size_t heap_size, size_t i, size_t depth);
 
 
 
@@ -126,12 +126,16 @@ void PSufSort::sort (size_t l, size_t r, size_t depth, size_t calls) {
 		return;
 	}
 
-	if (m <= 4){
+	if (m <= 10){
 		sort_insert(l, r, depth, calls);
 		return;
 	}
 
-	this->sort_tsqs(l, r, depth, calls);
+	if( calls < 100){
+		sort_tsqs(l, r, depth, calls);
+	} else {
+		sort_heap(l, r, depth, calls);
+	}
 }
 
 class sufcmp {
@@ -247,16 +251,16 @@ size_t PARENT( size_t i){
 	return (i-1) >> 1;
 }
 
-void PSufSort::build_heap( int* rSA, size_t n){
+void PSufSort::build_heap( int* rSA, size_t n, size_t depth){
 	auto heap_size = n;
 	for( ssize_t i= PARENT(n-1); i>=0 ; i--){
-		heapify(rSA, heap_size, i);
+		heapify(rSA, heap_size, i, depth);
 	}
 }
 
-void PSufSort::heapify( int* rSA, size_t heap_size, size_t i){ // aka. siftDown
+void PSufSort::heapify( int* rSA, size_t heap_size, size_t i, size_t depth){ // aka. siftDown
 	auto key = [&](size_t j){
-		return T.data() + j + 0; //FIXME: depth
+		return T.data() + j + depth;
 	};
 
 	auto l = LEFT(i);
@@ -271,26 +275,21 @@ void PSufSort::heapify( int* rSA, size_t heap_size, size_t i){ // aka. siftDown
 	}
 	if( largest != i){
 		std::swap(rSA[i], rSA[largest]);
-		heapify(rSA, heap_size, largest);
+		heapify(rSA, heap_size, largest, depth);
 	}
 }
 
 void PSufSort::sort_heap(size_t left, size_t right, size_t depth, size_t calls){
-	auto key = [&](size_t j){
-		return T.data() + j + 1; //FIXME: depth
-	};
-
 	auto rSA = SA.data() + left;
 	auto n = right - left;
 	auto heap_size = n;
 	
-	build_heap(rSA, n);
+	build_heap(rSA, n, depth);
 
 	for( auto i = n-1; i ; i--){
 		std::swap(rSA[0],rSA[i]);
-		//assert(key(rSA[i]) > key(rSA[0]));
 		heap_size--;
-		heapify(rSA, heap_size, 0);
+		heapify(rSA, heap_size, 0, depth);
 	}
 }
 
