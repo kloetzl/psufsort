@@ -41,6 +41,8 @@ public:
 	char median3(size_t a, size_t b, size_t c, size_t depth);
 
 	void swap_range(size_t a, size_t b, size_t n);
+	char char_at( size_t sai, size_t depth);
+	const char *str_from( size_t sai, size_t depth);
 };
 
 std::vector<int> psufsort(std::string T){
@@ -154,6 +156,14 @@ std::vector<int> psufsort(std::string T){
 	return std::move(SA); // move doesnt move
 }
 
+char PSufSort::char_at( size_t sai, size_t depth){
+	return *(T.data() + sai + depth);
+}
+
+const char *PSufSort::str_from( size_t sai, size_t depth){
+	return T.data() + sai + depth;
+}
+
 void PSufSort::swap_range(size_t a, size_t b, size_t n){
 	auto& SA = this->SA;
 
@@ -207,7 +217,7 @@ void PSufSort::sort_insert (size_t l, size_t r, size_t depth, size_t unused){
 
 char PSufSort::median3(size_t a, size_t b, size_t c, size_t depth){
 	auto key = [&](size_t i){
-		return (this->T.data() + SA[i])[depth];
+		return char_at(SA[i], depth);
 	};
 
 	if( key(a) > key(b) ){ std::swap(SA[a], SA[b]); }
@@ -234,15 +244,15 @@ void PSufSort::sort_tsqs (size_t l, size_t r, size_t depth, size_t calls){
 	auto d = r-1;
 
 	while(true) {
-		for(; b <= c && key(b) <= K; b++){
-			if( key(b) == K){
+		for(; b <= c && char_at(SA[b], depth) <= K; b++){
+			if( char_at(SA[b], depth) == K){
 				std::swap(SA[a], SA[b]);
 				a++;
 			}
 		}
 
-		for(; b <= c && key(c) >= K; c--){
-			if( key(c) == K){
+		for(; b <= c && char_at(SA[c], depth) >= K; c--){
+			if( char_at(SA[c], depth) == K){
 				std::swap(SA[c],SA[d]);
 				d--;
 			}
