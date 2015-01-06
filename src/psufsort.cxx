@@ -5,28 +5,48 @@
 #include <cstring>
 #include <algorithm>
 #include <iostream>
+#include <cassert>
 
 void mk_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
 void insertion_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
 void TSQS (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
 void mk_buildin (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
 
-std::vector<int> psufsort2(std::string T){
-	auto n = T.size();
-	auto SA = std::vector<int>(n+1);
-
-	for(auto i=0; i<n+1;i++){
-		SA[i] = i;
+class PSufSort
+{
+	const std::string& T;
+	std::vector<int>& SA;
+public:
+	PSufSort(const std::string& _T, std::vector<int>& _SA) : T(_T), SA(_SA) {
+		auto n = T.size();
 	}
+	~PSufSort() {};
 
-	mk_sort(SA, T, 0, n+1, 0);
+	void sort(size_t l, size_t r, size_t depth, size_t calls);
+	void sort_tsqs(size_t l, size_t r, size_t depth, size_t calls);
+	void sort_insert(size_t l, size_t r, size_t depth, size_t calls);
+	void sort_heap(size_t l, size_t	r, size_t depth, size_t calls);
 
-	return SA;
-}
+	void build_heap( int* rSA, size_t n, size_t depth);
+	void heapify( int* rSA, size_t heap_size, size_t i, size_t depth);
+
+
+
+	void swap_range(size_t a, size_t b, size_t n);
+};
 
 std::vector<int> psufsort(std::string T){
 	auto n = T.size();
 	auto SA = std::vector<int>(n+1);
+	auto sorter = PSufSort(T,SA);
+
+	for(auto i=0;i<n+1;i++)
+		SA[i]=i;
+
+	sorter.sort(0,n+1,0,0);
+	return SA;
+
+	
 	auto suff = [&](size_t i){
 		return T.data() + i;
 	};
@@ -76,7 +96,7 @@ std::vector<int> psufsort(std::string T){
 			int e = b + bucket_B[i].first;
 
 			// sort
-			mk_sort( SA, T, b, e, 1);
+			sorter.sort( b, e, 1, 0);
 		}
 	}
 
@@ -94,13 +114,15 @@ std::vector<int> psufsort(std::string T){
 	return std::move(SA); // move doesnt move
 }
 
-void swap_range(int *A, int *B, size_t n){
+void PSufSort::swap_range(size_t a, size_t b, size_t n){
+	auto& SA = this->SA;
+
 	for(auto i=0; i< n; i++){
-		std::swap(A[i], B[i]);
+		std::swap(SA[a++], SA[b++]);
 	}
 }
 
-void mk_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth) {
+void PSufSort::sort (size_t l, size_t r, size_t depth, size_t calls) {
 	if(l >= r){
 		return;
 	}
@@ -110,12 +132,16 @@ void mk_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, si
 		return;
 	}
 
-	if (m <= 16){
-		insertion_sort(SA, T, l, r, depth);
+	if (m <= 10){
+		sort_insert(l, r, depth, calls);
 		return;
 	}
 
-	TSQS(SA,T,l,r,depth);
+	if( calls < 100){
+		sort_tsqs(l, r, depth, calls);
+	} else {
+		sort_heap(l, r, depth, calls);
+	}
 }
 
 class sufcmp {
@@ -153,10 +179,10 @@ void mk_buildin (std::vector<int>& SA, const std::string& T, size_t l, size_t r,
 	std::sort(SA.begin()+l, SA.begin()+r, cmp);
 }
 
-void insertion_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth){
+void PSufSort::sort_insert (size_t l, size_t r, size_t depth, size_t unused){
 	auto sc = sufcmp(SA,T);
 	auto key = [&](size_t i){
-		return T.data() + SA[i] + depth;
+		return this->T.data() + SA[i] + depth;
 	};
 
 	for(auto j = l+1; j < r; j++){
@@ -171,10 +197,11 @@ void insertion_sort (std::vector<int>& SA, const std::string& T, size_t l, size_
 	}
 }
 
-void TSQS (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth){
+void PSufSort::sort_tsqs (size_t l, size_t r, size_t depth, size_t calls){
 	auto key = [&](size_t i){
-		return (T.data() + SA[i])[depth];
+		return (this->T.data() + SA[i])[depth];
 	};
+	auto& SA = this->SA;
 
 	auto K = key(l); // pick K
 
@@ -205,16 +232,70 @@ void TSQS (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_
 	}
 
 	auto m = std::min(a-l, b-a);
-	swap_range(SA.data()+l, SA.data()+b-m, m);
+	swap_range(l, b-m, m);
 
 	m = std::min(d-c, r-d-1);
-	swap_range(SA.data()+b, SA.data()+r-m, m);
+	swap_range(b, r-m, m);
 
 	auto i = l + b - a;
 	auto j = r - d + c;
 
-	mk_sort(SA,T,l,i,depth);
-	mk_sort(SA,T,i,j,depth+1);
-	mk_sort(SA,T,j,r,depth);
-
+	this->sort(l, i, depth, calls + 1);
+	this->sort(i, j, depth+1, calls + 1);
+	this->sort(j, r, depth, calls + 1);
 }
+
+size_t LEFT(size_t i){
+	return (i << 1) + 1;
+}
+
+size_t RIGHT(size_t i){
+	return (i << 1) + 2;
+}
+
+size_t PARENT( size_t i){
+	return (i-1) >> 1;
+}
+
+void PSufSort::build_heap( int* rSA, size_t n, size_t depth){
+	auto heap_size = n;
+	for( ssize_t i= PARENT(n-1); i>=0 ; i--){
+		heapify(rSA, heap_size, i, depth);
+	}
+}
+
+void PSufSort::heapify( int* rSA, size_t heap_size, size_t i, size_t depth){ // aka. siftDown
+	auto key = [&](size_t j){
+		return T.data() + j + depth;
+	};
+
+	auto l = LEFT(i);
+	auto r = RIGHT(i);
+	auto largest = i;
+
+	if( l < heap_size && strcmp( key(rSA[l]) , key(rSA[i])) > 0 ){
+		largest = l;
+	}
+	if( r < heap_size && strcmp( key(rSA[r]) , key(rSA[largest])) > 0){
+		largest = r;
+	}
+	if( largest != i){
+		std::swap(rSA[i], rSA[largest]);
+		heapify(rSA, heap_size, largest, depth);
+	}
+}
+
+void PSufSort::sort_heap(size_t left, size_t right, size_t depth, size_t calls){
+	auto rSA = SA.data() + left;
+	auto n = right - left;
+	auto heap_size = n;
+	
+	build_heap(rSA, n, depth);
+
+	for( auto i = n-1; i ; i--){
+		std::swap(rSA[0],rSA[i]);
+		heap_size--;
+		heapify(rSA, heap_size, 0, depth);
+	}
+}
+
