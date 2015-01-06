@@ -1,4 +1,3 @@
-
 #include <string>
 #include <vector>
 #include <utility>
@@ -6,6 +5,7 @@
 #include <algorithm>
 #include <iostream>
 #include <cassert>
+#include <flags.h>
 
 void mk_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
 void insertion_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
@@ -23,9 +23,11 @@ class PSufSort
 {
 	const std::string& T;
 	std::vector<int>& SA;
+	size_t threshold;
 public:
 	PSufSort(const std::string& _T, std::vector<int>& _SA) : T(_T), SA(_SA) {
 		auto n = T.size();
+		threshold = 2 * std::log(n);
 	}
 	~PSufSort() {};
 
@@ -49,17 +51,6 @@ std::vector<int> psufsort(std::string T){
 	auto n = T.size();
 	auto SA = std::vector<int>(n+1);
 	auto sorter = PSufSort(T,SA);
-
-	for(auto i=0;i<n+1;i++)
-		SA[i]=i;
-
-	sorter.sort(0,n+1,0,0);
-	return SA;
-
-	
-	auto suff = [&](size_t i){
-		return T.data() + i;
-	};
 
 	auto bucket_A = std::vector<Bucket>(256,Bucket());
 	auto bucket_B = std::vector<Bucket>(256,Bucket());
@@ -117,8 +108,10 @@ std::vector<int> psufsort(std::string T){
 
 	SA[0] = n; // TODO: where do I go?
 
+	std::cout << THREADS << std::endl;
+
 	// sort all B*s
-	#pragma omp parallel for shared(SA,T) schedule(dynamic, 1)
+	#pragma omp parallel for shared(SA,T) schedule(dynamic, 1) num_threads(THREADS)
 	for(i=0; i<256; i++){
 		if( bucket_S[i].size > 1){
 			int b = bucket_S[i].start;
@@ -182,12 +175,12 @@ void PSufSort::sort (size_t l, size_t r, size_t depth, size_t calls) {
 		return;
 	}
 
-	if (m <= 10){
+	if (m <= 16){
 		sort_insert(l, r, depth, calls);
 		return;
 	}
 
-	if( calls < 100){
+	if( calls < threshold){
 		sort_tsqs(l, r, depth, calls);
 	} else {
 		sort_heap(l, r, depth, calls);
