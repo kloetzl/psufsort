@@ -144,52 +144,20 @@ void PSufSort::sort (size_t l, size_t r, size_t depth, size_t calls) {
 	}
 }
 
-class sufcmp {
-	const std::vector<int>& SA;
-	const std::string& T;
-public:
-	sufcmp(const std::vector<int>& _SA, const std::string& _T) : SA(_SA), T(_T) {};
-	~sufcmp() {};
 
-	int cmp_from( size_t a, size_t b, size_t depth){
+void PSufSort::sort_insert (size_t l, size_t r, size_t depth, size_t unused){
+	auto cmp_from = [&]( size_t a, size_t b){
 		auto ta = T.data()+ a +depth;
 		auto tb = T.data()+ b +depth;
 
 		return strcmp(ta,tb);
 	};
 
-	class Suffix {
-		size_t offset;
-	public:
-		Suffix(int arguments);
-		~Suffix();
-
-		/* data */
-	};
-};
-
-
-
-void mk_buildin (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth){
-	auto sc = sufcmp(SA,T);
-	auto cmp = [&](int a, int b){
-		return sc.cmp_from(a,b,depth) < 0;
-	};
-
-	std::sort(SA.begin()+l, SA.begin()+r, cmp);
-}
-
-void PSufSort::sort_insert (size_t l, size_t r, size_t depth, size_t unused){
-	auto sc = sufcmp(SA,T);
-	auto key = [&](size_t i){
-		return this->T.data() + SA[i] + depth;
-	};
-
 	for(auto j = l+1; j < r; j++){
 		auto X = SA[j];
 
 		auto i = j;
-		for(; i > l && sc.cmp_from( SA[i-1], X, depth) > 0 ; i--){
+		for(; i > l && cmp_from( SA[i-1], X) > 0 ; i--){
 			SA[i] = SA[i-1];
 		}
 
