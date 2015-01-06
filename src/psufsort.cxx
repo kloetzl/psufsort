@@ -12,6 +12,13 @@ void insertion_sort (std::vector<int>& SA, const std::string& T, size_t l, size_
 void TSQS (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
 void mk_buildin (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
 
+class Bucket {
+
+public:
+	size_t start, size;
+	Bucket(): start(0), size(0) {};
+};
+
 class PSufSort
 {
 	const std::string& T;
@@ -22,6 +29,7 @@ public:
 	}
 	~PSufSort() {};
 
+	// All intervals are semi-open: [l,r)
 	void sort(size_t l, size_t r, size_t depth, size_t calls);
 	void sort_tsqs(size_t l, size_t r, size_t depth, size_t calls);
 	void sort_insert(size_t l, size_t r, size_t depth, size_t calls);
@@ -51,63 +59,95 @@ std::vector<int> psufsort(std::string T){
 		return T.data() + i;
 	};
 
-	auto bucket_A = std::vector<std::pair<int,int>>(256,std::make_pair(0,0));
-	auto bucket_B = std::vector<std::pair<int,int>>(256,std::make_pair(0,0));
-	//auto bucket_S = std::vector<std::pair<int,int>>(256,std::make_pair(0,0)); // B*
+	auto bucket_A = std::vector<Bucket>(256,Bucket());
+	auto bucket_B = std::vector<Bucket>(256,Bucket());
+	auto bucket_S = std::vector<Bucket>(256,Bucket()); // B*
 
 	size_t bcounter = 0;
 
-	size_t i;
-	for(i=0; i<n; i++){ // TODO: n-1?
-		auto c = T[i];
-		auto d = T[i+1];
-		if( c > d){
-			bucket_A[c].first++;
-		} else {
+	// classify suffixes and compute the bucket sizes
+	size_t i = n -1;
+	while( i > 0){
+		if( T[i] > T[i+1]){
+			bucket_A[T[i]].size++;
+			i--;
+			continue;
+		}
+
+		bucket_S[T[i]].size++;
+		bcounter++;
+		i--;
+
+		while(T[i] <= T[i+1]){
+			bucket_B[T[i]].size++;
+			i--;
 			bcounter++;
-			bucket_B[c].first++;
 		}
 	}
-	bucket_B[0].first = 1;
+	bucket_B[0].size = 1;
 
 	std::clog << bcounter << std::endl;
 
-	int c = 0;
+	// compute bucket starting points
+	int j = 0;
 	for(i=0; i<256; i++){
-		bucket_A[i].second = c;
-		c += bucket_A[i].first + bucket_B[i].first;
-		bucket_B[i].second = c;
+		bucket_A[i].start = j;
+		j += bucket_A[i].size;
+		bucket_S[i].start = j;
+		j += bucket_S[i].size;
+		bucket_B[i].start = j;
+		j += bucket_B[i].size;
 	}
 
+	// fill in B* buckets
 	for( i=0; i<n; i++){
 		char c = T[i];
 		if( c <= T[i+1]){
-			bucket_B[c].second--;
-			SA[bucket_B[c].second] = i;
+			bucket_S[c].start++;
+			SA[bucket_S[c].start] = i;
 		}
 	}
 
-	SA[0] = n;
+	// correct the `++` from the previous loop. 
+	for(i=0; i<256; i++){
+		bucket_S[i].start -= bucket_S[i].size;
+	}
 
+	SA[0] = n; // TODO: where do I go?
+
+	// sort all B*s
 	#pragma omp parallel for shared(SA,T) schedule(dynamic, 1)
 	for(i=0; i<256; i++){
-		if( bucket_B[i].first > 1){
-			int b = bucket_B[i].second;
-			int e = b + bucket_B[i].first;
+		if( bucket_S[i].size > 1){
+			int b = bucket_S[i].start;
+			int e = b + bucket_S[i].size;
 
 			// sort
 			sorter.sort( b, e, 1, 0);
 		}
 	}
 
+	// induced insert all Bs
+	for(i=n; i-- > 0;){
+		int j = SA[i];
+		if( j == 0) continue;
+
+		auto a = T[j-1];
+		if( a <= T[j]){
+			SA[bucket_B[a].start + bucket_B[a].size] = j-1;
+			bucket_B[a].size--;
+		}
+	}
+
+	// induced insert all As
 	for(i=0; i<n; i++){
 		int j = SA[i];
 		if( j == 0) continue;
 
 		auto a = T[j-1];
 		if( a > T[j]){
-			SA[bucket_A[a].second] = j -1;
-			bucket_A[a].second++;
+			SA[bucket_A[a].start] = j -1;
+			bucket_A[a].start++;
 		}
 	}
 
