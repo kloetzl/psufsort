@@ -30,7 +30,7 @@ public:
 	void build_heap( int* rSA, size_t n, size_t depth);
 	void heapify( int* rSA, size_t heap_size, size_t i, size_t depth);
 
-
+	char median3(size_t a, size_t b, size_t c, size_t depth);
 
 	void swap_range(size_t a, size_t b, size_t n);
 };
@@ -165,13 +165,25 @@ void PSufSort::sort_insert (size_t l, size_t r, size_t depth, size_t unused){
 	}
 }
 
+char PSufSort::median3(size_t a, size_t b, size_t c, size_t depth){
+	auto key = [&](size_t i){
+		return (this->T.data() + SA[i])[depth];
+	};
+
+	if( key(a) > key(b) ){ std::swap(SA[a], SA[b]); }
+	if( key(b) > key(c) ){ std::swap(SA[b], SA[c]); }
+	if( key(a) > key(b) ){ std::swap(SA[a], SA[b]); }
+
+	return key(b);
+}
+
 void PSufSort::sort_tsqs (size_t l, size_t r, size_t depth, size_t calls){
 	auto key = [&](size_t i){
 		return (this->T.data() + SA[i])[depth];
 	};
 	auto& SA = this->SA;
 
-	auto K = key(l); // pick K
+	auto K = median3(l, (r-l)/2 + l, r-1, depth); // pick K
 
 	auto a = l;
 	auto b = l;
