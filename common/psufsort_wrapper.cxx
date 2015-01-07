@@ -25,6 +25,7 @@ void saca_wrapper(std::string str){
 	auto SA = psufsort(str);
 
 	if( FLAGS & F_VERBOSE){
+		std::cout << "i T[SA[i]]" << std::endl;
 		for (auto i = SA.begin(); i != SA.end(); ++i){
 			auto suff = std::string(str.data()+*i);
 			str_replace(suff, "\n", "\\n");

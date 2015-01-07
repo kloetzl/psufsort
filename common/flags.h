@@ -1,4 +1,5 @@
 extern int FLAGS;
+extern int THREADS;
 
 enum {
 	F_NONE = 0,

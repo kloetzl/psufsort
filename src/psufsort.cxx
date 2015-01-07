@@ -59,8 +59,8 @@ std::vector<int> psufsort(std::string T){
 	size_t bcounter = 0;
 
 	// classify suffixes and compute the bucket sizes
-	size_t i = n -1;
-	while( i > 0){
+	ssize_t i = n -1;
+	while( i >= 0){
 		if( T[i] > T[i+1]){
 			bucket_A[T[i]].size++;
 			i--;
@@ -71,13 +71,16 @@ std::vector<int> psufsort(std::string T){
 		bcounter++;
 		i--;
 
-		while(T[i] <= T[i+1]){
+		while( i >= 0 && T[i] <= T[i+1]){
 			bucket_B[T[i]].size++;
 			i--;
 			bcounter++;
 		}
 	}
-	bucket_B[0].size = 1;
+
+	// Deal with the null byte
+	bucket_S[0].size = 1;
+	SA[0] = n;
 
 	std::clog << bcounter << std::endl;
 
@@ -93,11 +96,22 @@ std::vector<int> psufsort(std::string T){
 	}
 
 	// fill in B* buckets
-	for( i=0; i<n; i++){
-		char c = T[i];
-		if( c <= T[i+1]){
-			bucket_S[c].start++;
-			SA[bucket_S[c].start] = i;
+	i = n -1;
+	while( i >= 0){
+		auto c = T[i];
+
+		if( c > T[i+1]){ // skip A
+			i--;
+			continue;
+		}
+
+		auto foo = bucket_S[c].start;
+		SA[foo] = i;
+		bucket_S[c].start++;
+		i--;
+
+		while( i >= 0 && T[i] <= T[i+1]){ // skip B
+			i--;
 		}
 	}
 
@@ -106,12 +120,8 @@ std::vector<int> psufsort(std::string T){
 		bucket_S[i].start -= bucket_S[i].size;
 	}
 
-	SA[0] = n; // TODO: where do I go?
-
-	std::cout << THREADS << std::endl;
-
 	// sort all B*s
-	#pragma omp parallel for shared(SA,T) schedule(dynamic, 1) num_threads(THREADS)
+	//#pragma omp parallel for shared(SA,T) schedule(dynamic, 1) num_threads(THREADS)
 	for(i=0; i<256; i++){
 		if( bucket_S[i].size > 1){
 			int b = bucket_S[i].start;
@@ -123,19 +133,19 @@ std::vector<int> psufsort(std::string T){
 	}
 
 	// induced insert all Bs
-	for(i=n; i-- > 0;){
+	for(i=n+1; i-- > 0;){
 		int j = SA[i];
 		if( j == 0) continue;
 
 		auto a = T[j-1];
 		if( a <= T[j]){
-			SA[bucket_B[a].start + bucket_B[a].size] = j-1;
+			SA[bucket_B[a].start + bucket_B[a].size - 1] = j-1;
 			bucket_B[a].size--;
 		}
 	}
 
 	// induced insert all As
-	for(i=0; i<n; i++){
+	for(i=0; i<n+1; i++){
 		int j = SA[i];
 		if( j == 0) continue;
 
