@@ -16,7 +16,7 @@ class Bucket {
 
 public:
 	size_t start, size;
-	Bucket(): start(0), size(0) {};
+	constexpr Bucket() noexcept : start(0), size(0) {};
 };
 
 class PSufSort
@@ -279,15 +279,15 @@ void PSufSort::sort_tsqs (size_t l, size_t r, size_t depth, size_t calls){
 	this->sort(j, r, depth, calls + 1);
 }
 
-size_t LEFT(size_t i){
+constexpr inline size_t LEFT(size_t i){
 	return (i << 1) + 1;
 }
 
-size_t RIGHT(size_t i){
+constexpr inline size_t RIGHT(size_t i){
 	return (i << 1) + 2;
 }
 
-size_t PARENT( size_t i){
+constexpr inline size_t PARENT( size_t i){
 	return (i-1) >> 1;
 }
 
