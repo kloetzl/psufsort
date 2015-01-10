@@ -221,7 +221,7 @@ void PSufSort::sort_insert (size_t l, size_t r, size_t depth, size_t unused){
 	}
 }
 
-char PSufSort::median3(size_t a, size_t b, size_t c, size_t depth){
+char PSufSort::median3(size_t b, size_t a, size_t c, size_t depth){
 	auto key = [&](size_t i){
 		return char_at(SA[i], depth);
 	};
@@ -229,11 +229,8 @@ char PSufSort::median3(size_t a, size_t b, size_t c, size_t depth){
 	if( key(a) > key(b) ){ std::swap(SA[a], SA[b]); }
 	if( key(b) > key(c) ){ std::swap(SA[b], SA[c]); }
 	if( key(a) > key(b) ){ std::swap(SA[a], SA[b]); }
-	auto value = key(b);
 
-	std::swap(SA[a], SA[b]); // todo: optimize the swaps.
-
-	return value;
+	return key(b);
 }
 
 void PSufSort::sort_tsqs (size_t l, size_t r, size_t depth, size_t calls){
