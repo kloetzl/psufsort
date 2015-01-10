@@ -115,7 +115,7 @@ std::vector<int> psufsort(std::string T){
 
 	// correct the `++` from the previous loop. 
 	for(i=0; i<256; i++){
-		for(auto k=0; k<256;k++){
+		for(auto k=i; k<256;k++){
 			S(i, k).start -= S(i, k).size;
 		}
 	}
@@ -123,7 +123,7 @@ std::vector<int> psufsort(std::string T){
 	// sort all B*s
 	//#pragma omp parallel for shared(SA,T) schedule(dynamic, 1) num_threads(THREADS)
 	for(i=0; i<256; i++){
-		for(auto k=0; k<256; k++){
+		for(auto k=i; k<256; k++){
 			if( S(i,k).size > 1){
 				int b = S(i,k).start;
 				int e = b + S(i,k).size;
@@ -140,9 +140,10 @@ std::vector<int> psufsort(std::string T){
 		if( j == 0) continue;
 
 		auto a = T[j-1];
-		if( a <= T[j]){
-			SA[B(a, T[j]).start + B(a, T[j]).size - 1] = j-1;
-			B(a, T[j]).size--;
+		auto b = T[j];
+		if( a <= b){
+			SA[B(a, b).start + B(a, b).size - 1] = j-1;
+			B(a, b).size--;
 		}
 	}
 
@@ -236,8 +237,6 @@ char PSufSort::median3(size_t a, size_t b, size_t c, size_t depth){
 }
 
 void PSufSort::sort_tsqs (size_t l, size_t r, size_t depth, size_t calls){
-	auto& SA = this->SA;
-
 	auto K = median3(l, (r-l)/2 + l, r-1, depth); // pick K
 
 	auto a = l;
