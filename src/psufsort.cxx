@@ -52,47 +52,61 @@ std::vector<int> psufsort(std::string T){
 	auto SA = std::vector<int>(n+1);
 	auto sorter = PSufSort(T,SA);
 
-	auto bucket_A = std::vector<Bucket>(256,Bucket());
-	auto bucket_B = std::vector<Bucket>(256,Bucket());
-	auto bucket_S = std::vector<Bucket>(256,Bucket()); // B*
+	auto A = std::vector<Bucket>(256, Bucket());
+	auto bucket_B = std::vector<Bucket>(256*256, Bucket());
+	auto bucket_S = std::vector<Bucket>(256*256, Bucket()); // B*
 
+	#define B(X,Y) (bucket_B[((X)<<8) + (Y)])
+	#define S(X,Y) (bucket_S[((X)<<8) + (Y)])
+
+	size_t acounter = 0;
+	size_t scounter = 0;
 	size_t bcounter = 0;
 
 	// classify suffixes and compute the bucket sizes
 	ssize_t i = n -1;
 	while( i >= 0){
 		if( T[i] > T[i+1]){
-			bucket_A[T[i]].size++;
+			A[T[i]].size++;
 			i--;
+			acounter++ ;
 			continue;
 		}
 
-		bucket_S[T[i]].size++;
-		bcounter++;
+		S(T[i], T[i+1]).size++;
+		scounter++;
 		i--;
 
 		while( i >= 0 && T[i] <= T[i+1]){
-			bucket_B[T[i]].size++;
+			B(T[i], T[i+1]).size++;
 			i--;
 			bcounter++;
 		}
 	}
 
 	// Deal with the null byte
-	bucket_S[0].size = 1;
+	S(0,0).size = 1;
 	SA[0] = n;
 
-	std::clog << bcounter << std::endl;
+	std::clog << acounter << "+" << scounter << "+" << bcounter << "=" << acounter+scounter+bcounter << std::endl;
 
 	// compute bucket starting points
 	int j = 0;
 	for(i=0; i<256; i++){
-		bucket_A[i].start = j;
-		j += bucket_A[i].size;
-		bucket_S[i].start = j;
-		j += bucket_S[i].size;
-		bucket_B[i].start = j;
-		j += bucket_B[i].size;
+		A[i].start = j;
+		j += A[i].size;
+		for(auto k =i; k< 256; k++){
+			S(i, k).start = j;
+			if( i == 10 && S(i, k).size != 0){
+				std::clog << (char)k << "S" <<  S(i, k).size << std::endl;
+			}
+			j += S(i, k).size;
+			B(i, k).start = j;
+			if( i == 10 && B(i, k).size != 0){
+				std::clog << (char)k << "B" <<  B(i, k).size << std::endl;
+			}
+			j += B(i, k).size;
+		}
 	}
 
 	// fill in B* buckets
@@ -105,9 +119,8 @@ std::vector<int> psufsort(std::string T){
 			continue;
 		}
 
-		auto foo = bucket_S[c].start;
-		SA[foo] = i;
-		bucket_S[c].start++;
+		SA[S(c,T[i+1]).start] = i;
+		S(c,T[i+1]).start++;
 		i--;
 
 		while( i >= 0 && T[i] <= T[i+1]){ // skip B
@@ -117,30 +130,47 @@ std::vector<int> psufsort(std::string T){
 
 	// correct the `++` from the previous loop. 
 	for(i=0; i<256; i++){
-		bucket_S[i].start -= bucket_S[i].size;
+		for(auto k=0; k<256;k++){
+			S(i, k).start -= S(i, k).size;
+		}
 	}
 
 	// sort all B*s
 	//#pragma omp parallel for shared(SA,T) schedule(dynamic, 1) num_threads(THREADS)
 	for(i=0; i<256; i++){
-		if( bucket_S[i].size > 1){
-			int b = bucket_S[i].start;
-			int e = b + bucket_S[i].size;
+		for(auto k=0; k<256; k++){
+			if( S(i,k).size > 1){
+				int b = S(i,k).start;
+				int e = b + S(i,k).size;
 
-			// sort
-			sorter.sort( b, e, 1, 0);
+				// sort
+				sorter.sort( b, e, 2, 0);
+			}
 		}
 	}
 
 	// induced insert all Bs
-	for(i=n+1; i-- > 0;){
+	for(i=n; i >= 0;i--){
 		int j = SA[i];
 		if( j == 0) continue;
 
 		auto a = T[j-1];
 		if( a <= T[j]){
-			SA[bucket_B[a].start + bucket_B[a].size - 1] = j-1;
-			bucket_B[a].size--;
+			SA[B(a, T[j]).start + B(a, T[j]).size - 1] = j-1;
+			B(a, T[j]).size--;
+			bcounter--;
+		}
+	}
+
+	std::clog << bcounter << std::endl;
+
+	if( bcounter ){
+		for(i=0; i<256; i++){
+			for(auto k=0; k<256;k++){
+				if(B(i, k).size){
+					std::clog << (int)i << (char)k << B(i, k).size << std::endl;
+				}
+			}
 		}
 	}
 
@@ -151,8 +181,8 @@ std::vector<int> psufsort(std::string T){
 
 		auto a = T[j-1];
 		if( a > T[j]){
-			SA[bucket_A[a].start] = j -1;
-			bucket_A[a].start++;
+			SA[A[a].start] = j -1;
+			A[a].start++;
 		}
 	}
 
@@ -234,9 +264,6 @@ char PSufSort::median3(size_t a, size_t b, size_t c, size_t depth){
 }
 
 void PSufSort::sort_tsqs (size_t l, size_t r, size_t depth, size_t calls){
-	auto key = [&](size_t i){
-		return (this->T.data() + SA[i])[depth];
-	};
 	auto& SA = this->SA;
 
 	auto K = median3(l, (r-l)/2 + l, r-1, depth); // pick K
