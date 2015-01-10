@@ -59,36 +59,27 @@ std::vector<int> psufsort(std::string T){
 	#define B(X,Y) (bucket_B[((X)<<8) + (Y)])
 	#define S(X,Y) (bucket_S[((X)<<8) + (Y)])
 
-	size_t acounter = 0;
-	size_t scounter = 0;
-	size_t bcounter = 0;
-
 	// classify suffixes and compute the bucket sizes
 	ssize_t i = n -1;
 	while( i >= 0){
 		if( T[i] >= T[i+1]){
 			A[T[i]].size++;
 			i--;
-			acounter++ ;
 			continue;
 		}
 
 		S(T[i], T[i+1]).size++;
-		scounter++;
 		i--;
 
 		while( i >= 0 && T[i] <= T[i+1]){
 			B(T[i], T[i+1]).size++;
 			i--;
-			bcounter++;
 		}
 	}
 
 	// Deal with the null byte
 	S(0,0).size = 1;
 	SA[0] = n;
-
-	std::clog << acounter << "+" << scounter << "+" << bcounter << "=" << acounter+scounter+bcounter << std::endl;
 
 	// compute bucket starting points
 	int j = 0;
@@ -152,19 +143,6 @@ std::vector<int> psufsort(std::string T){
 		if( a <= T[j]){
 			SA[B(a, T[j]).start + B(a, T[j]).size - 1] = j-1;
 			B(a, T[j]).size--;
-			bcounter--;
-		}
-	}
-
-	std::clog << bcounter << std::endl;
-
-	if( bcounter ){
-		for(i=0; i<256; i++){
-			for(auto k=0; k<256;k++){
-				if(B(i, k).size){
-					std::clog << (int)i << (char)k << B(i, k).size << std::endl;
-				}
-			}
 		}
 	}
 
