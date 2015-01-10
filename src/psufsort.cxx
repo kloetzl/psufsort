@@ -66,7 +66,7 @@ std::vector<int> psufsort(std::string T){
 	// classify suffixes and compute the bucket sizes
 	ssize_t i = n -1;
 	while( i >= 0){
-		if( T[i] > T[i+1]){
+		if( T[i] >= T[i+1]){
 			A[T[i]].size++;
 			i--;
 			acounter++ ;
@@ -97,14 +97,8 @@ std::vector<int> psufsort(std::string T){
 		j += A[i].size;
 		for(auto k =i; k< 256; k++){
 			S(i, k).start = j;
-			if( i == 10 && S(i, k).size != 0){
-				std::clog << (char)k << "S" <<  S(i, k).size << std::endl;
-			}
 			j += S(i, k).size;
 			B(i, k).start = j;
-			if( i == 10 && B(i, k).size != 0){
-				std::clog << (char)k << "B" <<  B(i, k).size << std::endl;
-			}
 			j += B(i, k).size;
 		}
 	}
@@ -114,7 +108,7 @@ std::vector<int> psufsort(std::string T){
 	while( i >= 0){
 		auto c = T[i];
 
-		if( c > T[i+1]){ // skip A
+		if( c >= T[i+1]){ // skip A
 			i--;
 			continue;
 		}
@@ -180,7 +174,7 @@ std::vector<int> psufsort(std::string T){
 		if( j == 0) continue;
 
 		auto a = T[j-1];
-		if( a > T[j]){
+		if( a >= T[j]){
 			SA[A[a].start] = j -1;
 			A[a].start++;
 		}
