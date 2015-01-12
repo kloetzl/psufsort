@@ -153,6 +153,7 @@ std::vector<int> psufsort(std::string T){
 		if( j == 0) continue;
 
 		auto a = T[j-1];
+		if( SA[A[a].start] != 0) continue;
 		if( a >= T[j]){
 			SA[A[a].start] = j -1;
 			A[a].start++;
