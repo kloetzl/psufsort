@@ -52,7 +52,7 @@ int THREADS = 1;
 void usage(void);
 void version(void);
 
-void saca_wrapper(std::string);
+void saca_wrapper(const std::string&);
 
 int main( int argc, char *argv[]){
 	int c;

@@ -6,7 +6,7 @@
 
 #include "flags.h"
 
-std::vector<int> psufsort(std::string);
+std::vector<int> psufsort(const std::string&);
 
 using std::string;
 
@@ -21,7 +21,7 @@ void str_replace( string &s, const string &search, const string &replace ) {
 }
 
 
-void saca_wrapper(std::string str){
+void saca_wrapper(const std::string& str){
 	auto SA = psufsort(str);
 
 	if( FLAGS & F_VERBOSE){

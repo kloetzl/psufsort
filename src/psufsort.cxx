@@ -12,6 +12,8 @@ void insertion_sort (std::vector<int>& SA, const std::string& T, size_t l, size_
 void TSQS (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
 void mk_buildin (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
 
+std::vector<int> psufsort(const std::string& T);
+
 class Bucket {
 
 public:
@@ -47,14 +49,14 @@ public:
 	const char *str_from( size_t sai, size_t depth);
 };
 
-std::vector<int> psufsort(std::string T){
+std::vector<int> psufsort(const std::string& T){
 	auto n = T.size();
 	auto SA = std::vector<int>(n+1);
 	auto sorter = PSufSort(T,SA);
 
-	auto A = std::vector<Bucket>(256, Bucket());
-	auto bucket_B = std::vector<Bucket>(256*256, Bucket());
-	auto bucket_S = std::vector<Bucket>(256*256, Bucket()); // B*
+	auto A = std::vector<Bucket>(256);
+	auto bucket_B = std::vector<Bucket>(256*256);
+	auto bucket_S = std::vector<Bucket>(256*256); // B*
 
 	#define B(X,Y) (bucket_B[((X)<<8) + (Y)])
 	#define S(X,Y) (bucket_S[((X)<<8) + (Y)])
