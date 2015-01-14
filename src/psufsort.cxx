@@ -116,23 +116,20 @@ std::vector<int> psufsort(const std::string& T){
 	}
 
 	// correct the `++` from the previous loop. 
-	for(i=0; i<256; i++){
-		for(auto k=i; k<256;k++){
-			S(i, k).start -= S(i, k).size;
-		}
+	for(i=0; i<256*256; i++){
+		bucket_S[i].start -= bucket_S[i].size;
 	}
 
 	// sort all B*s
-	//#pragma omp parallel for shared(SA,T) schedule(dynamic, 1) num_threads(THREADS)
-	for(i=0; i<256; i++){
-		for(auto k=i; k<256; k++){
-			if( S(i,k).size > 1){
-				int b = S(i,k).start;
-				int e = b + S(i,k).size;
+	#pragma omp parallel for shared(SA,T) schedule(dynamic, 1) num_threads(THREADS)
+	for(i=0; i<256*256; i++){
+		const auto buc = bucket_S[i];
+		if( buc.size > 1){
+			int b = buc.start;
+			int e = b + buc.size;
 
-				// sort
-				sorter.sort( b, e, 2, 0);
-			}
+			// sort
+			sorter.sort( b, e, 2, 0);
 		}
 	}
 
