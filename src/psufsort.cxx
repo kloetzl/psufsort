@@ -27,9 +27,8 @@ class PSufSort
 	std::vector<int>& SA;
 	size_t threshold;
 public:
-	PSufSort(const std::string& _T, std::vector<int>& _SA) : T(_T), SA(_SA) {
-		auto n = T.size();
-		threshold = 2 * std::log(n);
+	PSufSort(const std::string& _T, std::vector<int>& _SA, size_t size) : T(_T), SA(_SA) {
+		threshold = 2 * std::log(size);
 	}
 	~PSufSort() {};
 
@@ -130,6 +129,7 @@ std::vector<int> psufsort(const std::string& T){
 		if( buc.size > 1){
 			int b = buc.start;
 			int e = b + buc.size;
+			auto sorter = PSufSort( T, SA, buc.size);
 
 			// sort
 			sorter.sort( b, e, 2, 0);
