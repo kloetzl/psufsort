@@ -280,15 +280,15 @@ void PSufSort::sort_tsqs (size_t l, size_t r, size_t depth, size_t calls){
 	this->sort(j, r, depth, calls + 1);
 }
 
-constexpr inline size_t LEFT(size_t i){
+constexpr inline size_t LEFT(size_t i) noexcept {
 	return (i << 1) + 1;
 }
 
-constexpr inline size_t RIGHT(size_t i){
+constexpr inline size_t RIGHT(size_t i) noexcept {
 	return (i << 1) + 2;
 }
 
-constexpr inline size_t PARENT( size_t i){
+constexpr inline size_t PARENT( size_t i) noexcept {
 	return (i-1) >> 1;
 }
 
