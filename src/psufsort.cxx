@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cassert>
 #include <flags.h>
+#include <cmath>
 
 void mk_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
 void insertion_sort (std::vector<int>& SA, const std::string& T, size_t l, size_t r, size_t depth);
@@ -28,7 +29,7 @@ class PSufSort
 	size_t threshold;
 public:
 	PSufSort(const std::string& _T, std::vector<int>& _SA, size_t size) : T(_T), SA(_SA) {
-		threshold = 2 * std::log(size);
+		threshold = std::log(size);
 	}
 	~PSufSort() {};
 
@@ -52,80 +53,80 @@ std::vector<int> psufsort(const std::string& T){
 	auto n = T.size();
 	auto SA = std::vector<int>(n+1);
 
-	auto A = std::vector<Bucket>(256);
-	auto bucket_B = std::vector<Bucket>(256*256);
-	auto bucket_S = std::vector<Bucket>(256*256); // B*
+	auto L = std::vector<Bucket>(256);
+	auto bucket_SM = std::vector<Bucket>(256*256); // S-
+	auto bucket_SS = std::vector<Bucket>(256*256); // S*
 
-	auto B = [&](size_t X, size_t Y) -> Bucket& {
-		return bucket_B[(X<<8) + Y];
+	auto SM = [&](size_t X, size_t Y) -> Bucket& {
+		return bucket_SM[(X<<8) + Y];
 	};
-	auto S = [&](size_t X, size_t Y) -> Bucket& {
-		return bucket_S[(X<<8) + Y];
+	auto SS = [&](size_t X, size_t Y) -> Bucket& {
+		return bucket_SS[(X<<8) + Y];
 	};
 
 	// classify suffixes and compute the bucket sizes
 	ssize_t i = n -1;
 	while( i >= 0){
 		if( T[i] >= T[i+1]){
-			A[T[i]].size++;
+			L[T[i]].size++;
 			i--;
 			continue;
 		}
 
-		S(T[i], T[i+1]).size++;
+		SS(T[i], T[i+1]).size++;
 		i--;
 
 		while( i >= 0 && T[i] <= T[i+1]){
-			B(T[i], T[i+1]).size++;
+			SM(T[i], T[i+1]).size++;
 			i--;
 		}
 	}
 
 	// Deal with the null byte
-	S(0,0).size = 1;
+	SS(0,0).size = 1;
 	SA[0] = n;
 
 	// compute bucket starting points
 	int j = 0;
 	for(i=0; i<256; i++){
-		A[i].start = j;
-		j += A[i].size;
+		L[i].start = j;
+		j += L[i].size;
 		for(auto k =i; k< 256; k++){
-			S(i, k).start = j;
-			j += S(i, k).size;
-			B(i, k).start = j;
-			j += B(i, k).size;
+			SS(i, k).start = j;
+			j += SS(i, k).size;
+			SM(i, k).start = j;
+			j += SM(i, k).size;
 		}
 	}
 
-	// fill in B* buckets
+	// fill in S* buckets
 	i = n -1;
 	while( i >= 0){
 		auto c = T[i];
 
-		if( c >= T[i+1]){ // skip A
+		if( c >= T[i+1]){ // skip L
 			i--;
 			continue;
 		}
 
-		SA[S(c,T[i+1]).start] = i;
-		S(c,T[i+1]).start++;
+		SA[SS(c,T[i+1]).start] = i;
+		SS(c,T[i+1]).start++;
 		i--;
 
-		while( i >= 0 && T[i] <= T[i+1]){ // skip B
+		while( i >= 0 && T[i] <= T[i+1]){ // skip S-
 			i--;
 		}
 	}
 
 	// correct the `++` from the previous loop. 
 	for(i=0; i<256*256; i++){
-		bucket_S[i].start -= bucket_S[i].size;
+		bucket_SS[i].start -= bucket_SS[i].size;
 	}
 
-	// sort all B*s
+	// sort all S* suffixes
 	#pragma omp parallel for shared(SA,T) schedule(dynamic, 1) num_threads(THREADS)
 	for(i=0; i<256*256; i++){
-		const auto buc = bucket_S[i];
+		const auto buc = bucket_SS[i];
 		if( buc.size > 1){
 			int b = buc.start;
 			int e = b + buc.size;
@@ -136,7 +137,7 @@ std::vector<int> psufsort(const std::string& T){
 		}
 	}
 
-	// induced insert all Bs
+	// induced insert all S-
 	for(i=n; i >= 0;i--){
 		int j = SA[i];
 		if( j == 0) continue;
@@ -144,21 +145,21 @@ std::vector<int> psufsort(const std::string& T){
 		auto a = T[j-1];
 		auto b = T[j];
 		if( a <= b){
-			SA[B(a, b).start + B(a, b).size - 1] = j-1;
-			B(a, b).size--;
+			SA[SM(a, b).start + SM(a, b).size - 1] = j-1;
+			SM(a, b).size--;
 		}
 	}
 
-	// induced insert all As
+	// induced insert all Ls
 	for(i=0; i<n+1; i++){
 		int j = SA[i];
 		if( j == 0) continue;
 
 		auto a = T[j-1];
-		if( SA[A[a].start] != 0) continue;
+		if( SA[L[a].start] != 0) continue;
 		if( a >= T[j]){
-			SA[A[a].start] = j -1;
-			A[a].start++;
+			SA[L[a].start] = j -1;
+			L[a].start++;
 		}
 	}
 
