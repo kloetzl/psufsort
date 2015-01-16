@@ -52,14 +52,17 @@ public:
 std::vector<int> psufsort(const std::string& T){
 	auto n = T.size();
 	auto SA = std::vector<int>(n+1);
-	auto sorter = PSufSort(T,SA);
 
 	auto A = std::vector<Bucket>(256);
 	auto bucket_B = std::vector<Bucket>(256*256);
 	auto bucket_S = std::vector<Bucket>(256*256); // B*
 
-	#define B(X,Y) (bucket_B[((X)<<8) + (Y)])
-	#define S(X,Y) (bucket_S[((X)<<8) + (Y)])
+	auto B = [&](size_t X, size_t Y) -> Bucket& {
+		return bucket_B[(X<<8) + Y];
+	};
+	auto S = [&](size_t X, size_t Y) -> Bucket& {
+		return bucket_S[(X<<8) + Y];
+	};
 
 	// classify suffixes and compute the bucket sizes
 	ssize_t i = n -1;
