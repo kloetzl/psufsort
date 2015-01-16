@@ -44,8 +44,8 @@ public:
 	char median3(size_t a, size_t b, size_t c, size_t depth);
 
 	void swap_range(size_t a, size_t b, size_t n);
-	char char_at( size_t sai, size_t depth);
-	const char *str_from( size_t sai, size_t depth);
+	inline char char_at( size_t sai, size_t depth);
+	inline const char *str_from( size_t sai, size_t depth);
 };
 
 std::vector<int> psufsort(const std::string& T){
@@ -165,12 +165,12 @@ std::vector<int> psufsort(const std::string& T){
 	return std::move(SA); // move doesnt move
 }
 
-char PSufSort::char_at( size_t sai, size_t depth){
-	return *(T.data() + sai + depth);
+inline char PSufSort::char_at( size_t sai, size_t depth){
+	return T[sai + depth];
 }
 
-const char *PSufSort::str_from( size_t sai, size_t depth){
-	return T.data() + sai + depth;
+inline const char *PSufSort::str_from( size_t sai, size_t depth){
+	return &T[sai + depth];
 }
 
 void PSufSort::swap_range(size_t a, size_t b, size_t n){
