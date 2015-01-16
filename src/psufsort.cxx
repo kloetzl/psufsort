@@ -163,7 +163,7 @@ std::vector<int> psufsort(const std::string& T){
 		}
 	}
 
-	return std::move(SA); // move doesnt move
+	return SA; // move doesnt move
 }
 
 inline char PSufSort::char_at( size_t sai, size_t depth){
