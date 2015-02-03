@@ -160,7 +160,7 @@ int main( int argc, char *argv[]){
 
 void usage(void){
 	const char str[]= {
-		"Usage: psaca [-t INT] FILES...\n"
+		"Usage: psufsort [-t INT] FILES...\n"
 		"\tFILES... can be any sequence of files. If no files are supplied, stdin is used instead.\n"
 		"Options:\n"
 #ifdef _OPENMP
@@ -176,7 +176,7 @@ void usage(void){
 
 void version(void){
 	const char str[]= {
-		"psaca \n"
+		"psufsort \n"
 		"Copyright (C) 2014 Fabian Klötzl\n"
 	};
 
