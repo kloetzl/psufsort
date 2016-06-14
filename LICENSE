@@ -1,3 +1,14 @@
+psufsort is dualicensed under the GNU General Public License v3+ or ISC.
+
+## GPL
+Copyright © 2015 Fabian Klötzl fabian-psufsort@kloetzl.info
+License GPLv3+: GNU GPL version 3 or later.
+
+This is free software: you are free to change and redistribute it. There
+is NO WARRANTY, to the extent permitted by law. The full license text is
+available at http://gnu.org/licenses/gpl.html.
+
+## ISC
 Copyright (c) 2015, Fabian Klötzl fabian-psufsort@kloetzl.info
 
 Permission to use, copy, modify, and/or distribute this software for any
